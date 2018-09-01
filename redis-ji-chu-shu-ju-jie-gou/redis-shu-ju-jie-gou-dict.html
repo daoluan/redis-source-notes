@@ -1,0 +1,891 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Redis 数据结构 dict · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="redis-shu-ju-jie-gou-ziplist.html" />
+    
+    
+    <link rel="prev" href="redis-shu-ju-jie-gou-sds.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">关于</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    关于
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../yuan-ma-ri-zhi.html">
+            
+                <a href="../yuan-ma-ri-zhi.html">
+            
+                    
+                    源码日志
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../yuan-ma-ri-zhi/yuan-ma-ri-zhi.html">
+            
+                <a href="../yuan-ma-ri-zhi/yuan-ma-ri-zhi.html">
+            
+                    
+                    源码日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../yuan-ma-ri-zhi/cong-na-li-kai-shi-du-qi-ff0c-zen-yao-du.html">
+            
+                <a href="../yuan-ma-ri-zhi/cong-na-li-kai-shi-du-qi-ff0c-zen-yao-du.html">
+            
+                    
+                    从哪里开始读起，怎么读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../yuan-ma-ri-zhi/bu-zai-fu-sha-zhu-gao-tai.html">
+            
+                <a href="../yuan-ma-ri-zhi/bu-zai-fu-sha-zhu-gao-tai.html">
+            
+                    
+                    不在浮沙筑高台
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../yuan-ma-ri-zhi/shi-yao-yang-de-yuan-dai-ma-shi-he-yue-du.html">
+            
+                <a href="../yuan-ma-ri-zhi/shi-yao-yang-de-yuan-dai-ma-shi-he-yue-du.html">
+            
+                    
+                    什么样的源代码适合阅读
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 服务框架</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../chu-tan-redis.html">
+            
+                <a href="../chu-tan-redis.html">
+            
+                    
+                    初探 Redis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../chu-tan-redis/redis-zai-huan-cun-xi-tong-suo-chu-de-wei-zhi.html">
+            
+                <a href="../chu-tan-redis/redis-zai-huan-cun-xi-tong-suo-chu-de-wei-zhi.html">
+            
+                    
+                    redis 在缓存系统所处的位置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../redis-shi-jian-qu-dong-xiang-jie.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie.html">
+            
+                    
+                    Redis 事件驱动详解
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../redis-shi-jian-qu-dong-xiang-jie/gai-shu.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/gai-shu.html">
+            
+                    
+                    概述
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1.1" data-path="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-qu-dong-shu-ju-jie-gou.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-qu-dong-shu-ju-jie-gou.html">
+            
+                    
+                    事件驱动数据结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.1.2" data-path="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan-zhong-xin.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan-zhong-xin.html">
+            
+                    
+                    事件循环中心
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../redis-shi-jian-qu-dong-xiang-jie/redis-shi-jian-qu-dong-yuan-li.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/redis-shi-jian-qu-dong-yuan-li.html">
+            
+                    
+                    Redis 事件驱动原理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.2.1" data-path="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-zhu-ce-xiang-jie.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-zhu-ce-xiang-jie.html">
+            
+                    
+                    事件注册详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2.2" data-path="../redis-shi-jian-qu-dong-xiang-jie/zhun-bei-jian-ting-gong-zuo.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/zhun-bei-jian-ting-gong-zuo.html">
+            
+                    
+                    准备监听工作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2.3" data-path="../redis-shi-jian-qu-dong-xiang-jie/wei-jian-ting-tao-jie-zi-zhu-ce-shi-jian.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/wei-jian-ting-tao-jie-zi-zhu-ce-shi-jian.html">
+            
+                    
+                    为监听套接字注册事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2.4" data-path="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan.html">
+            
+                    
+                    事件循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2.5" data-path="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-hong-fa.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/shi-jian-hong-fa.html">
+            
+                    
+                    事件触发
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../redis-shi-jian-qu-dong-xiang-jie/zong-jie.html">
+            
+                <a href="../redis-shi-jian-qu-dong-xiang-jie/zong-jie.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../redis-shi-ru-he-ti-gong-fu-wu-de.html">
+            
+                <a href="../redis-shi-ru-he-ti-gong-fu-wu-de.html">
+            
+                    
+                    Redis 是如何提供服务的
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../redis-shi-ru-he-ti-gong-fu-wu-de/xiang-xi-de-guo-cheng.html">
+            
+                <a href="../redis-shi-ru-he-ti-gong-fu-wu-de/xiang-xi-de-guo-cheng.html">
+            
+                    
+                    详细的过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../redis-shi-ru-he-ti-gong-fu-wu-de/xin-lian-jie-de-chu-li-liu-cheng.html">
+            
+                <a href="../redis-shi-ru-he-ti-gong-fu-wu-de/xin-lian-jie-de-chu-li-liu-cheng.html">
+            
+                    
+                    新连接的处理流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 基础数据结构</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="redis-shu-ju-jie-gou-zong-shu.html">
+            
+                <a href="redis-shu-ju-jie-gou-zong-shu.html">
+            
+                    
+                    Redis 数据结构综述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="redis-shu-ju-jie-gou-redisobject.html">
+            
+                <a href="redis-shu-ju-jie-gou-redisobject.html">
+            
+                    
+                    Redis 数据结构 redisObject
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="redisshu-ju-jie-gou-adlist.html">
+            
+                <a href="redisshu-ju-jie-gou-adlist.html">
+            
+                    
+                    Redis数据结构 adlist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="redis-shu-ju-jie-gou-sds.html">
+            
+                <a href="redis-shu-ju-jie-gou-sds.html">
+            
+                    
+                    Redis 数据结构 sds
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.5" data-path="redis-shu-ju-jie-gou-dict.html">
+            
+                <a href="redis-shu-ju-jie-gou-dict.html">
+            
+                    
+                    Redis 数据结构 dict
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="redis-shu-ju-jie-gou-ziplist.html">
+            
+                <a href="redis-shu-ju-jie-gou-ziplist.html">
+            
+                    
+                    Redis 数据结构 ziplist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="redis-shu-ju-jie-gou-skiplist.html">
+            
+                <a href="redis-shu-ju-jie-gou-skiplist.html">
+            
+                    
+                    Redis 数据结构 skiplist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="redis-shu-ju-jiegou-intset.html">
+            
+                <a href="redis-shu-ju-jiegou-intset.html">
+            
+                    
+                    Redis 数据结构 intset
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 内功心法</li>
+        
+        
+    
+
+    
+        
+        <li class="header">Redis 操练</li>
+        
+        
+    
+
+    
+        
+        <li class="header">其他</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Redis 数据结构 dict</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="redis-&#x6570;&#x636E;&#x7ED3;&#x6784;-dict">Redis &#x6570;&#x636E;&#x7ED3;&#x6784; dict</h2>
+<h3 id="redis-&#x7684;&#x952E;&#x503C;&#x5BF9;&#x5B58;&#x50A8;&#x5728;&#x54EA;&#x91CC;">Redis &#x7684;&#x952E;&#x503C;&#x5BF9;&#x5B58;&#x50A8;&#x5728;&#x54EA;&#x91CC;</h3>
+<p>&#x5728; redis &#x4E2D;&#x6709;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x6570;&#x636E;&#x96C6;&#x91C7;&#x7528;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x662F;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x7528;&#x4EE5;&#x5B58;&#x50A8;&#x952E;&#x503C;&#x5BF9;&#x3002;&#x9ED8;&#x8BA4;&#x6240;&#x6709;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x90FD;&#x662F;&#x4F7F;&#x7528;&#x7B2C;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x3002;&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x6709;&#x9700;&#x8981;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; select &#x547D;&#x4EE4;&#x6765;&#x9009;&#x62E9;&#x4E0D;&#x540C;&#x7684;&#x6570;&#x636E;&#x96C6;&#x3002;redis &#x5728;&#x521D;&#x59CB;&#x5316;&#x670D;&#x52A1;&#x5668;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x521D;&#x59CB;&#x5316;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x96C6;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initServer</span><span class="hljs-params">()</span> </span>{
+    ......
+    <span class="hljs-comment">// &#x5206;&#x914D;&#x6570;&#x636E;&#x96C6;&#x7A7A;&#x95F4;</span>
+    server.db = zmalloc(<span class="hljs-keyword">sizeof</span>(redisDb)*server.dbnum);
+    ......
+    <span class="hljs-comment">// &#x521D;&#x59CB;&#x5316; redis &#x6570;&#x636E;&#x96C6;</span>
+    <span class="hljs-comment">/* Create the Redis databases, and initialize other internal state. */</span>
+    <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; server.REDIS_DEFAULT_DBNUM; j++) { <span class="hljs-comment">// &#x521D;&#x59CB;&#x5316;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5E93;</span>
+        <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x952E;&#x503C;&#x5BF9;</span>
+        server.db[j].dict = dictCreate(&amp;dbDictType,<span class="hljs-literal">NULL</span>);
+
+        <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x6BCF;&#x4E2A;&#x952E;&#x7684;&#x8FC7;&#x671F;&#x65F6;&#x95F4;</span>
+        server.db[j].expires = dictCreate(&amp;keyptrDictType,<span class="hljs-literal">NULL</span>);
+        ......
+    }
+    ......
+}
+</code></pre>
+<h3 id="&#x54C8;&#x5E0C;&#x8868;-dict">&#x54C8;&#x5E0C;&#x8868; dict</h3>
+<p>&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x662F;&#x600E;&#x4E48;&#x6837;&#x7684;&#xFF1A;</p>
+<p><img src="../assets/dict-0.png" alt=""></p>
+<p>&#x6570;&#x636E;&#x96C6;&#x91C7;&#x7528;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x662F;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x6570;&#x636E;&#x771F;&#x6B63;&#x5B58;&#x50A8;&#x5728;&#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#xFF0C;&#x7528;&#x5F00;&#x94FE;&#x6CD5;&#x89E3;&#x51B3;&#x51B2;&#x7A81;&#x95EE;&#x9898;&#xFF0C;struct dictht &#x5373;&#x4E3A;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x3002;&#x4F46;&#x5728; redis &#x54C8;&#x5E0C;&#x8868;&#x6570;&#x636E;&#x7ED3;&#x6784; struct dict &#x4E2D;&#x6709;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x4E0B;&#x6587;&#x5C06;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x5206;&#x522B;&#x79F0;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x548C;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;redis &#x63D0;&#x4F9B;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x662F;&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x5728;&#x4E0D;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x6269;&#x5C55;&#xFF08;expand&#xFF09;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x8FD9;&#x662F;&#x5F88;&#x6709;&#x8DA3;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x53EF;&#x4EE5;&#x628A;&#x5B83;&#x8BA4;&#x4E3A;&#x662F;&#x4E00;&#x4E2A;&#x94FE;&#x8868;&#xFF0C;&#x63D0;&#x793A;&#xFF0C;&#x5F00;&#x94FE;&#x6CD5;</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> dictEntry {
+    <span class="hljs-keyword">void</span> *key;
+    <span class="hljs-keyword">union</span> {
+        \\ val &#x6307;&#x9488;&#x53EF;&#x4EE5;&#x6307;&#x5411;&#x4E00;&#x4E2A; redisObject
+        <span class="hljs-keyword">void</span> *val;
+        <span class="hljs-keyword">uint64_t</span> u64;
+        <span class="hljs-keyword">int64_t</span> s64;
+    } v;
+    <span class="hljs-keyword">struct</span> dictEntry *next;
+} dictEntry;
+
+<span class="hljs-comment">// &#x8981;&#x5B58;&#x50A8;&#x591A;&#x79CD;&#x591A;&#x6837;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x52BF;&#x5FC5;&#x4E0D;&#x540C;&#x7684;&#x6570;&#x636E;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x54C8;&#x5E0C;&#x7B97;&#x6CD5;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x952E;&#x503C;&#x6BD4;&#x8F83;&#x7B97;&#x6CD5;&#xFF0C;</span>
+<span class="hljs-comment">// &#x4E0D;&#x540C;&#x7684;&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> dictType {
+    <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x51FD;&#x6570;</span>
+    <span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">int</span> <span class="hljs-params">(*hashFunction)</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *key)</span></span>;
+
+    <span class="hljs-keyword">void</span> *(*keyDup)(<span class="hljs-keyword">void</span> *privdata, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *key);
+    <span class="hljs-keyword">void</span> *(*valDup)(<span class="hljs-keyword">void</span> *privdata, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *obj);
+
+    <span class="hljs-comment">// &#x6BD4;&#x8F83;&#x51FD;&#x6570;</span>
+    <span class="hljs-keyword">int</span> (*keyCompare)(<span class="hljs-keyword">void</span> *privdata, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *key1, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *key2);
+
+    <span class="hljs-comment">// &#x952E;&#x503C;&#x6790;&#x6784;&#x51FD;&#x6570;</span>
+    <span class="hljs-keyword">void</span> (*keyDestructor)(<span class="hljs-keyword">void</span> *privdata, <span class="hljs-keyword">void</span> *key);
+    <span class="hljs-keyword">void</span> (*valDestructor)(<span class="hljs-keyword">void</span> *privdata, <span class="hljs-keyword">void</span> *obj);
+} dictType;
+
+<span class="hljs-comment">// &#x4E00;&#x822C;&#x54C8;&#x5E0C;&#x8868;&#x6570;&#x636E;&#x7ED3;&#x6784;</span>
+<span class="hljs-comment">/* This is our hash table structure. Every dictionary has two of this as we
+* implement incremental rehashing, for the old to the new table. */</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> dictht {
+    <span class="hljs-comment">// &#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;</span>
+    dictEntry **table;
+
+    <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#x7684;&#x5927;&#x5C0F;</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> size;
+
+    <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#x5927;&#x5C0F;&#x63A9;&#x7801;</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> sizemask;
+
+    <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#x6570;&#x636E;&#x9879;&#x6570;&#x91CF;</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> used;
+} dictht;
+
+<span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#xFF08;&#x5B57;&#x5178;&#xFF09;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;redis &#x7684;&#x6240;&#x6709;&#x952E;&#x503C;&#x5BF9;&#x90FD;&#x4F1A;&#x5B58;&#x50A8;&#x5728;&#x8FD9;&#x91CC;&#x3002;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x3002;</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> dict {
+    <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x5305;&#x62EC;&#x54C8;&#x5E0C;&#x51FD;&#x6570;&#xFF0C;&#x6BD4;&#x8F83;&#x51FD;&#x6570;&#xFF0C;&#x952E;&#x503C;&#x7684;&#x5185;&#x5B58;&#x91CA;&#x653E;&#x51FD;&#x6570;</span>
+    dictType *type;
+
+    <span class="hljs-comment">// &#x5B58;&#x50A8;&#x4E00;&#x4E9B;&#x989D;&#x5916;&#x7684;&#x6570;&#x636E;</span>
+    <span class="hljs-keyword">void</span> *privdata;
+
+    <span class="hljs-comment">// &#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;</span>
+    dictht ht[<span class="hljs-number">2</span>];
+
+    <span class="hljs-comment">// &#x54C8;&#x5E0C;&#x8868;&#x91CD;&#x7F6E;&#x4E0B;&#x6807;&#xFF0C;&#x6307;&#x5B9A;&#x7684;&#x662F;&#x54C8;&#x5E0C;&#x6570;&#x7EC4;&#x7684;&#x6570;&#x7EC4;&#x4E0B;&#x6807;</span>
+    <span class="hljs-keyword">int</span> rehashidx; <span class="hljs-comment">/* rehashing not in progress if rehashidx == -1 */</span>
+
+    <span class="hljs-comment">// &#x7ED1;&#x5B9A;&#x5230;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x8FED;&#x4EE3;&#x5668;&#x4E2A;&#x6570;</span>
+    <span class="hljs-keyword">int</span> iterators; <span class="hljs-comment">/* number of iterators currently running */</span>
+} dict;
+</code></pre>
+<h3 id="&#x6269;&#x5C55;&#x54C8;&#x5E0C;&#x8868;">&#x6269;&#x5C55;&#x54C8;&#x5E0C;&#x8868;</h3>
+<p>redis &#x4E3A;&#x6BCF;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#x914D;&#x5907;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x80FD;&#x5728;&#x4E0D;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x6269;&#x5C55;&#x54C8;&#x5E0C;&#x8868;&#x3002;&#x5E73;&#x65F6;&#x54C8;&#x5E0C;&#x8868;&#x6269;&#x5C55;&#x7684;&#x505A;&#x6CD5;&#x662F;&#xFF0C;&#x4E3A;&#x65B0;&#x7684;&#x54C8;&#x5E0C;&#x8868;&#x53E6;&#x5916;&#x5F00;&#x8F9F;&#x4E00;&#x4E2A;&#x7A7A;&#x95F4;&#xFF0C;&#x5C06;&#x539F;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x6570;&#x636E;&#x91CD;&#x65B0;&#x8BA1;&#x7B97;&#x54C8;&#x5E0C;&#x503C;&#xFF0C;&#x4EE5;&#x79FB;&#x52A8;&#x5230;&#x65B0;&#x54C8;&#x5E0C;&#x8868;&#x3002;&#x5982;&#x679C;&#x539F;&#x54C8;&#x5E0C;&#x8868;&#x6570;&#x636E;&#x8FC7;&#x591A;&#xFF0C;&#x4E2D;&#x95F4;&#x5927;&#x91CF;&#x7684;&#x8BA1;&#x7B97;&#x8FC7;&#x7A0B;&#x8F83;&#x597D;&#x8D39;&#x5927;&#x91CF;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x6BB5;&#x65F6;&#x95F4; redis &#x5C06;&#x4E0D;&#x80FD;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x3002;</p>
+<p>redis &#x6269;&#x5C55;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x505A;&#x6CD5;&#x6709;&#x70B9;&#x5C0F;&#x806A;&#x660E;&#xFF1A;&#x4E3A;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x5206;&#x914D;&#x65B0;&#x7A7A;&#x95F4;&#xFF0C;&#x5176;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;&#x4E3A;&#x539F;&#x54C8;&#x5E0C;&#x8868;&#x952E;&#x503C;&#x5BF9;&#x6570;&#x91CF;&#x7684;&#x4E24;&#x500D;&#xFF08;&#x662F;&#x7684;&#xFF0C;&#x6CA1;&#x9519;&#xFF09;&#xFF0C;&#x63A5;&#x7740;&#x9010;&#x6B65;&#x5C06;&#x7B2C;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x79FB;&#x52A8;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF1B;&#x5F85;&#x79FB;&#x52A8;&#x5B8C;&#x6BD5;&#x540E;&#xFF0C;&#x5C06;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x503C;&#x8D4B;&#x503C;&#x7ED9;&#x7B2C;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x7F6E;&#x7A7A;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6570;&#x636E;&#x4F1A;&#x5206;&#x5E03;&#x5728;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5C31;&#x8981;&#x6C42;&#x5728; CURD &#x65F6;&#xFF0C;&#x90FD;&#x8981;&#x8003;&#x8651;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x3002;</p>
+<p>&#x800C;&#x8FD9;&#x91CC;&#xFF0C;&#x5C06;&#x7B2C;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x79FB;&#x52A8;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x88AB;&#x79F0;&#x4E3A;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#xFF08;rehash&#xFF09;&#x3002;</p>
+<h3 id="&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;">&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;</h3>
+<p>&#x5728; CURD &#x7684;&#x65F6;&#x5019;&#x4F1A;&#x6267;&#x884C;&#x4E00;&#x6B65;&#x7684;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x64CD;&#x4F5C;&#xFF0C;&#x5728;&#x670D;&#x52A1;&#x5668;&#x5B9A;&#x65F6;&#x7A0B;&#x5E8F; serverCorn() &#x4E2D;&#x4F1A;&#x6267;&#x884C;&#x4E00;&#x5B9A;&#x65F6;&#x95F4;&#x7684;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x64CD;&#x4F5C;&#x3002;&#x4E3A;&#x4EC0;&#x4E48;&#x5728;&#x5B9A;&#x65F6;&#x7A0B;&#x5E8F;&#x4E2D;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x4E86;&#xFF0C;&#x8FD8; CURD &#x7684;&#x65F6;&#x5019;&#x8FD8;&#x8981;&#x5462;&#xFF1F;&#x6216;&#x8005;&#x53CD;&#x8FC7;&#x6765;&#x95EE;&#x3002;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x7684;&#x539F;&#x56E0;&#x662F; redis &#x505A;&#x4E86;&#x4E24;&#x624B;&#x51C6;&#x5907;&#xFF1A;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7A7A;&#x95F2;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B9A;&#x65F6;&#x7A0B;&#x5E8F;&#x4F1A;&#x5B8C;&#x6210;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#xFF1B;&#x5728;&#x670D;&#x52A1;&#x5668;&#x8FC7;&#x8F7D;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x66F4;&#x591A;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x64CD;&#x4F5C;&#x4F1A;&#x843D;&#x5728; CURD &#x7684;&#x670D;&#x52A1;&#x4E0A;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5176;&#x4E3B;&#x8981;&#x4EFB;&#x52A1;&#x5C31;&#x662F;&#x9009;&#x62E9;&#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x4E0A;&#x7684;&#x5355;&#x94FE;&#x8868;&#xFF0C;&#x91CD;&#x65B0;&#x8BA1;&#x7B97;&#x54C8;&#x5E0C;&#x503C;&#xFF0C;&#x653E;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">dictRehash</span><span class="hljs-params">(dict *d, <span class="hljs-keyword">int</span> n)</span> </span>{
+    <span class="hljs-comment">// &#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x7ED3;&#x675F;&#xFF0C;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;</span>
+    <span class="hljs-keyword">if</span> (!dictIsRehashing(d)) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">while</span>(n--) {
+        dictEntry *de, *nextde;
+
+        <span class="hljs-comment">// &#x7B2C;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x4E3A;&#x7A7A;&#xFF0C;&#x8BC1;&#x660E;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#xFF0C;&#x5C06;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x8D4B;&#x503C;&#x7ED9;&#x7B2C;&#x4E00;&#x4E2A;&#xFF0C;</span>
+        <span class="hljs-comment">// &#x7ED3;&#x675F;</span>
+        <span class="hljs-comment">/* Check if we already rehashed the whole table... */</span>
+        <span class="hljs-keyword">if</span> (d-&gt;ht[<span class="hljs-number">0</span>].used == <span class="hljs-number">0</span>) {
+            zfree(d-&gt;ht[<span class="hljs-number">0</span>].table);
+            d-&gt;ht[<span class="hljs-number">0</span>] = d-&gt;ht[<span class="hljs-number">1</span>];
+            _dictReset(&amp;d-&gt;ht[<span class="hljs-number">1</span>]);
+            d-&gt;rehashidx = <span class="hljs-number">-1</span>;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        }
+
+        <span class="hljs-comment">/* Note that rehashidx can&apos;t overflow as we are sure there are more
+         * elements because ht[0].used != 0 */</span>
+        assert(d-&gt;ht[<span class="hljs-number">0</span>].size &gt; (<span class="hljs-keyword">unsigned</span>)d-&gt;rehashidx);
+
+        <span class="hljs-comment">// &#x627E;&#x5230;&#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#x4E0D;&#x4E3A;&#x7A7A;&#x7684;&#x4F4D;&#x7F6E;</span>
+        <span class="hljs-keyword">while</span>(d-&gt;ht[<span class="hljs-number">0</span>].table[d-&gt;rehashidx] == <span class="hljs-literal">NULL</span>) d-&gt;rehashidx++;
+        de = d-&gt;ht[<span class="hljs-number">0</span>].table[d-&gt;rehashidx];
+
+        <span class="hljs-comment">// &#x6B64;&#x4F4D;&#x7F6E;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#x79FB;&#x52A8;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;</span>
+        <span class="hljs-comment">/* Move all the keys in this bucket from the old to the new hash HT */</span>
+        <span class="hljs-keyword">while</span>(de) {
+            <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> h;
+            nextde = de-&gt;next;
+
+            <span class="hljs-comment">/* Get the index in the new hash table */</span>
+            <span class="hljs-comment">// &#x8BA1;&#x7B97;&#x54C8;&#x5E0C;&#x503C;</span>
+            h = dictHashKey(d, de-&gt;key) &amp; d-&gt;ht[<span class="hljs-number">1</span>].sizemask;
+
+            <span class="hljs-comment">// &#x5934;&#x63D2;&#x6CD5;</span>
+            de-&gt;next = d-&gt;ht[<span class="hljs-number">1</span>].table[h];
+            d-&gt;ht[<span class="hljs-number">1</span>].table[h] = de;
+
+            <span class="hljs-comment">// &#x66F4;&#x65B0;&#x54C8;&#x5E0C;&#x8868;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x91CF;</span>
+            d-&gt;ht[<span class="hljs-number">0</span>].used--;
+            d-&gt;ht[<span class="hljs-number">1</span>].used++;
+
+            de = nextde;
+        }
+        <span class="hljs-comment">// &#x7F6E;&#x7A7A;</span>
+        d-&gt;ht[<span class="hljs-number">0</span>].table[d-&gt;rehashidx] = <span class="hljs-literal">NULL</span>;
+
+        <span class="hljs-comment">// &#x6307;&#x5411;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;</span>
+        d-&gt;rehashidx++;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</code></pre>
+<h3 id="&#x4F4E;&#x6548;&#x7387;&#x7684;&#x54C8;&#x5E0C;&#x8868;&#x6DFB;&#x52A0;&#x3001;&#x66FF;&#x6362;&#x64CD;&#x4F5C;">&#x4F4E;&#x6548;&#x7387;&#x7684;&#x54C8;&#x5E0C;&#x8868;&#x6DFB;&#x52A0;&#x3001;&#x66FF;&#x6362;&#x64CD;&#x4F5C;</h3>
+<p>&#x5728; redis &#x6DFB;&#x52A0;&#x66FF;&#x6362;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x90FD;&#x5148;&#x8981;&#x67E5;&#x770B;&#x6570;&#x636E;&#x96C6;&#x4E2D;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x8BE5;&#x952E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x67E5;&#x627E;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x4E2A;redis &#x547D;&#x4EE4;&#x5BFC;&#x81F4;&#x8FC7;&#x591A;&#x7684;&#x67E5;&#x627E;&#xFF0C;&#x4F1A;&#x5BFC;&#x81F4;&#x6548;&#x7387;&#x4F4E;&#x4E0B;&#x3002;&#x53EF;&#x80FD;&#x662F;&#x4E3A;&#x4E86;&#x626C;&#x957F;&#x907F;&#x77ED;&#xFF0C;&#x5373;&#x9AD8;&#x8BFB;&#x6027;&#x80FD;&#x548C;&#x4F4E;&#x5199;&#x6027;&#x80FD;&#xFF0C;redis &#x4E2D;&#x6570;&#x636E;&#x7684;&#x6DFB;&#x52A0;&#x548C;&#x66FF;&#x6362;&#x6548;&#x7387;&#x4E0D;&#x9AD8;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x66FF;&#x6362;&#x6548;&#x7387;&#x4F4E;&#x7684;&#x6076;&#x5FC3;&#x3002;</p>
+<p><img src="../assets/dict-1.png" alt=""></p>
+<p>&#x5728; redis SET &#x547D;&#x4EE4;&#x7684;&#x8C03;&#x7528;&#x94FE;&#x4E2D;&#xFF0C;&#x6DFB;&#x52A0;&#x952E;&#x503C;&#x5BF9;&#x4F1A;&#x5BFC;&#x81F4;&#x4E86; 2&#x6B21;&#x7684;&#x952E;&#x503C;&#x5BF9;&#x67E5;&#x627E;&#xFF1B;&#x66FF;&#x6362;&#x952E;&#x503C;&#x5BF9;&#x6700;&#x591A;&#x4F1A;&#x5BFC;&#x81F4; 4&#x6B21;&#x7684;&#x952E;&#x503C;&#x5BF9;&#x67E5;&#x627E;&#x3002;&#x5728; dict &#x7684;&#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;dictFind() &#x548C; _dictIndex() &#x90FD;&#x4F1A;&#x5BFC;&#x81F4;&#x952E;&#x503C;&#x5BF9;&#x7684;&#x67E5;&#x627E;&#xFF0C;&#x8BE6;&#x7EC6;&#x53EF;&#x4EE5;&#x53C2;&#x770B;&#x6E90;&#x7801;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x4ECE;&#x6E90;&#x7801;&#x6765;&#x770B;&#xFF0C;&#x7ECF;&#x5E38;&#x5728; redis &#x4E0A;&#x5199;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x660E;&#x667A;&#x7684;&#x9009;&#x62E9;&#x3002;</p>
+<h3 id="&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x8FED;&#x4EE3;">&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x8FED;&#x4EE3;</h3>
+<p>&#x5728; RDB &#x548C; AOF &#x6301;&#x4E45;&#x5316;&#x64CD;&#x4F5C;&#x4E2D;&#xFF0C;&#x90FD;&#x9700;&#x8981;&#x8FED;&#x4EE3;&#x54C8;&#x5E0C;&#x8868;&#x3002;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x904D;&#x5386;&#x672C;&#x8EAB;&#x96BE;&#x5EA6;&#x4E0D;&#x5927;&#xFF0C;&#x4F46;&#x56E0;&#x4E3A;&#x6BCF;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#x90FD;&#x6709;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x6240;&#x4EE5;&#x904D;&#x5386;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x65F6;&#x5019;&#x4E5F;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x904D;&#x5386;&#x4E24;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF1A;&#x7B2C;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x904D;&#x5386;&#x5B8C;&#x6BD5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#x5C1A;&#x672A;&#x7ED3;&#x675F;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x7EE7;&#x7EED;&#x904D;&#x5386;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x8FED;&#x4EE3;&#x5668;&#x53D6;&#x4E0B;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x9879;&#x7684;&#x5165;&#x53E3;</span>
+<span class="hljs-function">dictEntry *<span class="hljs-title">dictNext</span><span class="hljs-params">(dictIterator *iter)</span>
+</span>{
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">if</span> (iter-&gt;entry == <span class="hljs-literal">NULL</span>) {
+            dictht *ht = &amp;iter-&gt;d-&gt;ht[iter-&gt;table];
+            <span class="hljs-comment">// &#x65B0;&#x7684;&#x8FED;&#x4EE3;&#x5668;</span>
+            <span class="hljs-keyword">if</span> (iter-&gt;index == <span class="hljs-number">-1</span> &amp;&amp; iter-&gt;table == <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">if</span> (iter-&gt;safe)
+                    iter-&gt;d-&gt;iterators++;
+                <span class="hljs-keyword">else</span>
+                    iter-&gt;fingerprint = dictFingerprint(iter-&gt;d);
+            }
+            iter-&gt;index++;
+
+            <span class="hljs-comment">// &#x4E0B;&#x6807;&#x8D85;&#x8FC7;&#x4E86;&#x54C8;&#x5E0C;&#x8868;&#x5927;&#x5C0F;&#xFF0C;&#x4E0D;&#x5408;&#x6CD5;</span>
+            <span class="hljs-keyword">if</span> (iter-&gt;index &gt;= (<span class="hljs-keyword">signed</span>) ht-&gt;size) {
+                <span class="hljs-comment">// &#x5982;&#x679C;&#x6B63;&#x5728;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;redis &#x4F1A;&#x5C1D;&#x8BD5;&#x5728;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x4E0A;&#x8FDB;&#x884C;&#x8FED;&#x4EE3;&#xFF0C;</span>
+                <span class="hljs-comment">// &#x5426;&#x5219;&#x771F;&#x7684;&#x5C31;&#x4E0D;&#x5408;&#x6CD5;&#x4E86;</span>
+
+                <span class="hljs-keyword">if</span> (dictIsRehashing(iter-&gt;d) &amp;&amp; iter-&gt;table == <span class="hljs-number">0</span>) {
+                <span class="hljs-comment">// &#x6B63;&#x5728;&#x91CD;&#x7F6E;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;&#x8BC1;&#x660E;&#x6570;&#x636E;&#x6B63;&#x5728;&#x4ECE;&#x7B2C;&#x4E00;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#x6574;&#x5408;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;&#xFF0C;</span>
+                <span class="hljs-comment">// &#x5219;&#x6307;&#x5411;&#x7B2C;&#x4E8C;&#x4E2A;&#x54C8;&#x5E0C;&#x8868;</span>
+                    iter-&gt;table++;
+                    iter-&gt;index = <span class="hljs-number">0</span>;
+                    ht = &amp;iter-&gt;d-&gt;ht[<span class="hljs-number">1</span>];
+                } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// &#x5426;&#x5219;&#x8FED;&#x4EE3;&#x5B8C;&#x6BD5;&#xFF0C;&#x8FD9;&#x662F;&#x771F;&#x6B63;&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x60C5;&#x51B5;</span>
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+
+            <span class="hljs-comment">// &#x53D6;&#x5F97;&#x6570;&#x636E;&#x9879;&#x5165;&#x53E3;</span>
+            iter-&gt;entry = ht-&gt;table[iter-&gt;index];
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// &#x53D6;&#x5F97;&#x4E0B;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x9879;&#x4EBA;&#x53E3;</span>
+            iter-&gt;entry = iter-&gt;nextEntry;
+        }
+
+        <span class="hljs-comment">// &#x8FED;&#x4EE3;&#x5668;&#x4F1A;&#x4FDD;&#x5B58;&#x4E0B;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x9879;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x56E0;&#x4E3A;&#x7528;&#x6237;&#x53EF;&#x80FD;&#x4F1A;&#x5220;&#x9664;&#x6B64;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x9879;</span>
+        <span class="hljs-comment">// &#x5165;&#x53E3;&#xFF0C;&#x5982;&#x6B64;&#x4F1A;&#x5BFC;&#x81F4;&#x8FED;&#x4EE3;&#x5668;&#x5931;&#x6548;&#xFF0C;&#x627E;&#x4E0D;&#x5230;&#x4E0B;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x9879;&#x5165;&#x53E3;</span>
+        <span class="hljs-keyword">if</span> (iter-&gt;entry) {
+            <span class="hljs-comment">/* We need to save the &apos;next&apos; here, the iterator user
+             * may delete the entry we are returning. */</span>
+            iter-&gt;nextEntry = iter-&gt;entry-&gt;next;
+            <span class="hljs-keyword">return</span> iter-&gt;entry;
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="redis-shu-ju-jie-gou-sds.html" class="navigation navigation-prev " aria-label="Previous page: Redis 数据结构 sds">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="redis-shu-ju-jie-gou-ziplist.html" class="navigation navigation-next " aria-label="Next page: Redis 数据结构 ziplist">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Redis 数据结构 dict","level":"3.5","depth":1,"next":{"title":"Redis 数据结构 ziplist","level":"3.6","depth":1,"path":"redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-ziplist.md","ref":"redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-ziplist.md","articles":[]},"previous":{"title":"Redis 数据结构 sds","level":"3.4","depth":1,"path":"redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-sds.md","ref":"redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-sds.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["adsense"],"pluginsConfig":{"adsense":{"client":"ca-pub-1222642516532018","slot":"3520154175","format":"auto","element":".page-inner section","position":"top"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-dict.md","mtime":"2018-09-01T02:21:12.074Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-01T02:22:46.089Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-adsense/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

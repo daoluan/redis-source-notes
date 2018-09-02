@@ -1,0 +1,1489 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>AOF 持久化运作机制 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="xi-shuo-geng-xin-huan-cun.html" />
+    
+    
+    <link rel="prev" href="aof-shu-ju-zu-zhi-fang-shi.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">关于</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    关于
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../yuan-ma-ri-zhi.html">
+            
+                <a href="../../yuan-ma-ri-zhi.html">
+            
+                    
+                    源码日志
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../yuan-ma-ri-zhi/yuan-ma-ri-zhi.html">
+            
+                <a href="../../yuan-ma-ri-zhi/yuan-ma-ri-zhi.html">
+            
+                    
+                    源码日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../../yuan-ma-ri-zhi/cong-na-li-kai-shi-du-qi-ff0c-zen-yao-du.html">
+            
+                <a href="../../yuan-ma-ri-zhi/cong-na-li-kai-shi-du-qi-ff0c-zen-yao-du.html">
+            
+                    
+                    从哪里开始读起，怎么读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../../yuan-ma-ri-zhi/bu-zai-fu-sha-zhu-gao-tai.html">
+            
+                <a href="../../yuan-ma-ri-zhi/bu-zai-fu-sha-zhu-gao-tai.html">
+            
+                    
+                    不在浮沙筑高台
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../../yuan-ma-ri-zhi/shi-yao-yang-de-yuan-dai-ma-shi-he-yue-du.html">
+            
+                <a href="../../yuan-ma-ri-zhi/shi-yao-yang-de-yuan-dai-ma-shi-he-yue-du.html">
+            
+                    
+                    什么样的源代码适合阅读
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 服务框架</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../chu-tan-redis.html">
+            
+                <a href="../../chu-tan-redis.html">
+            
+                    
+                    初探 Redis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../../chu-tan-redis/redis-zai-huan-cun-xi-tong-suo-chu-de-wei-zhi.html">
+            
+                <a href="../../chu-tan-redis/redis-zai-huan-cun-xi-tong-suo-chu-de-wei-zhi.html">
+            
+                    
+                    redis 在缓存系统所处的位置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie.html">
+            
+                    
+                    Redis 事件驱动详解
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../../redis-shi-jian-qu-dong-xiang-jie/gai-shu.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/gai-shu.html">
+            
+                    
+                    概述
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1.1" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-qu-dong-shu-ju-jie-gou.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-qu-dong-shu-ju-jie-gou.html">
+            
+                    
+                    事件驱动数据结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.1.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan-zhong-xin.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan-zhong-xin.html">
+            
+                    
+                    事件循环中心
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie/zong-jie.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/zong-jie.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../../redis-shi-jian-qu-dong-xiang-jie/redis-shi-jian-qu-dong-yuan-li.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/redis-shi-jian-qu-dong-yuan-li.html">
+            
+                    
+                    Redis 事件驱动原理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.3.1" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-zhu-ce-xiang-jie.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-zhu-ce-xiang-jie.html">
+            
+                    
+                    事件注册详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie/zhun-bei-jian-ting-gong-zuo.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/zhun-bei-jian-ting-gong-zuo.html">
+            
+                    
+                    准备监听工作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.3" data-path="../../redis-shi-jian-qu-dong-xiang-jie/wei-jian-ting-tao-jie-zi-zhu-ce-shi-jian.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/wei-jian-ting-tao-jie-zi-zhu-ce-shi-jian.html">
+            
+                    
+                    为监听套接字注册事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.4" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan.html">
+            
+                    
+                    事件循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.5" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-hong-fa.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-hong-fa.html">
+            
+                    
+                    事件触发
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../../redis-shi-ru-he-ti-gong-fu-wu-de.html">
+            
+                <a href="../../redis-shi-ru-he-ti-gong-fu-wu-de.html">
+            
+                    
+                    Redis 是如何提供服务的
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../../redis-shi-ru-he-ti-gong-fu-wu-de/xiang-xi-de-guo-cheng.html">
+            
+                <a href="../../redis-shi-ru-he-ti-gong-fu-wu-de/xiang-xi-de-guo-cheng.html">
+            
+                    
+                    详细的过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../../redis-shi-ru-he-ti-gong-fu-wu-de/xin-lian-jie-de-chu-li-liu-cheng.html">
+            
+                <a href="../../redis-shi-ru-he-ti-gong-fu-wu-de/xin-lian-jie-de-chu-li-liu-cheng.html">
+            
+                    
+                    新连接的处理流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 基础数据结构</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-zong-shu.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-zong-shu.html">
+            
+                    
+                    Redis 数据结构综述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-redisobject.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-redisobject.html">
+            
+                    
+                    Redis 数据结构 redisObject
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../../redis-ji-chu-shu-ju-jie-gou/redisshu-ju-jie-gou-adlist.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redisshu-ju-jie-gou-adlist.html">
+            
+                    
+                    Redis数据结构 adlist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-sds.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-sds.html">
+            
+                    
+                    Redis 数据结构 sds
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-dict.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-dict.html">
+            
+                    
+                    Redis 数据结构 dict
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-ziplist.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-ziplist.html">
+            
+                    
+                    Redis 数据结构 ziplist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-skiplist.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-skiplist.html">
+            
+                    
+                    Redis 数据结构 skiplist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jiegou-intset.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jiegou-intset.html">
+            
+                    
+                    Redis 数据结构 intset
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 内功心法</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../redis-shu-ju-tao-tai-ji-zhi.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi.html">
+            
+                    
+                    Redis 数据淘汰机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../redis-shu-ju-tao-tai-ji-zhi/lru-shu-ju-tao-tai-ji-zhi.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi/lru-shu-ju-tao-tai-ji-zhi.html">
+            
+                    
+                    LRU 数据淘汰机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../redis-shu-ju-tao-tai-ji-zhi/ttl-shu-ju-tao-tai-ji-zhi.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi/ttl-shu-ju-tao-tai-ji-zhi.html">
+            
+                    
+                    TTL 数据淘汰机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../redis-shu-ju-tao-tai-ji-zhi/zai-na-li-kai-shi-tao-tai-shu-ju.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi/zai-na-li-kai-shi-tao-tai-shu-ju.html">
+            
+                    
+                    在哪里开始淘汰数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../rdb-chi-jiu-hua-ce-lve.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve.html">
+            
+                    
+                    RDB 持久化策略
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../rdb-chi-jiu-hua-ce-lve/shu-ju-jie-gou-rio.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve/shu-ju-jie-gou-rio.html">
+            
+                    
+                    数据结构 rio
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="../rdb-chi-jiu-hua-ce-lve/rdb-chi-jiu-hua-de-yun-zuo-ji-zhi.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve/rdb-chi-jiu-hua-de-yun-zuo-ji-zhi.html">
+            
+                    
+                    RDB 持久化的运作机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.3" data-path="../rdb-chi-jiu-hua-ce-lve/rdb-shu-ju-de-zu-zhi-fang-shi.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve/rdb-shu-ju-de-zu-zhi-fang-shi.html">
+            
+                    
+                    RDB 数据的组织方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../aof-chi-jiu-hua-ce-lve.html">
+            
+                <a href="../aof-chi-jiu-hua-ce-lve.html">
+            
+                    
+                    AOF 持久化策略
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.3.1" data-path="aof-shu-ju-zu-zhi-fang-shi.html">
+            
+                <a href="aof-shu-ju-zu-zhi-fang-shi.html">
+            
+                    
+                    AOF 数据组织方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.3.2" data-path="aof-chi-jiu-hua-yun-zuo-ji-zhi.html">
+            
+                <a href="aof-chi-jiu-hua-yun-zuo-ji-zhi.html">
+            
+                    
+                    AOF 持久化运作机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.3" data-path="xi-shuo-geng-xin-huan-cun.html">
+            
+                <a href="xi-shuo-geng-xin-huan-cun.html">
+            
+                    
+                    细说更新缓存
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.4" data-path="aof-hui-fu-guo-cheng.html">
+            
+                <a href="aof-hui-fu-guo-cheng.html">
+            
+                    
+                    AOF 恢复过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.5" data-path="aof-de-shi-yong-chang-jing.html">
+            
+                <a href="aof-de-shi-yong-chang-jing.html">
+            
+                    
+                    AOF 的适用场景
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../zhu-cong-fu-zhi.html">
+            
+                <a href="../zhu-cong-fu-zhi.html">
+            
+                    
+                    主从复制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.4.1" data-path="../zhu-cong-fu-zhi/ji-ya-kong-jian.html">
+            
+                <a href="../zhu-cong-fu-zhi/ji-ya-kong-jian.html">
+            
+                    
+                    积压空间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.2" data-path="../zhu-cong-fu-zhi/zhu-cong-shu-ju-tong-bu-ji-zhi-gai-shu.html">
+            
+                <a href="../zhu-cong-fu-zhi/zhu-cong-shu-ju-tong-bu-ji-zhi-gai-shu.html">
+            
+                    
+                    主从数据同步机制概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.3" data-path="../zhu-cong-fu-zhi/quan-tong-bu.html">
+            
+                <a href="../zhu-cong-fu-zhi/quan-tong-bu.html">
+            
+                    
+                    全同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.4" data-path="../zhu-cong-fu-zhi/bu-fen-tong-bu.html">
+            
+                <a href="../zhu-cong-fu-zhi/bu-fen-tong-bu.html">
+            
+                    
+                    部分同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.5" data-path="../zhu-cong-fu-zhi/huan-cun-zhu-ji.html">
+            
+                <a href="../zhu-cong-fu-zhi/huan-cun-zhu-ji.html">
+            
+                    
+                    缓存主机
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.6" data-path="../zhu-cong-fu-zhi/zong-jie.html">
+            
+                <a href="../zhu-cong-fu-zhi/zong-jie.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.7" >
+            
+                <span>
+            
+                    
+                    Redis 命令队列
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../redis-shi-wu-ji-zhi.html">
+            
+                <a href="../redis-shi-wu-ji-zhi.html">
+            
+                    
+                    Redis 事务机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.5.1" data-path="../redis-shi-wu-ji-zhi/redis-ming-ling-dui-lie.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/redis-ming-ling-dui-lie.html">
+            
+                    
+                    Redis 命令队列
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.2" data-path="../redis-shi-wu-ji-zhi/jian-zhi-de-jian-shi.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/jian-zhi-de-jian-shi.html">
+            
+                    
+                    键值的监视
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.3" data-path="../redis-shi-wu-ji-zhi/redis-shi-wu-de-zhi-xing-yu-qu-xiao.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/redis-shi-wu-de-zhi-xing-yu-qu-xiao.html">
+            
+                    
+                    Redis 事务的执行与取消
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.4" data-path="../redis-shi-wu-ji-zhi/redis-shi-wu-fan-wai-pian.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/redis-shi-wu-fan-wai-pian.html">
+            
+                    
+                    Redis 事务番外篇
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 操练</li>
+        
+        
+    
+
+    
+        
+        <li class="header">其他</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >AOF 持久化运作机制</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="aof-&#x6301;&#x4E45;&#x5316;&#x8FD0;&#x4F5C;&#x673A;&#x5236;">AOF &#x6301;&#x4E45;&#x5316;&#x8FD0;&#x4F5C;&#x673A;&#x5236;</h2>
+<p>&#x548C; redis RDB &#x6301;&#x4E45;&#x5316;&#x8FD0;&#x4F5C;&#x673A;&#x5236;&#x4E0D;&#x540C;&#xFF0C;redis AOF &#x6709;&#x540E;&#x53F0;&#x6267;&#x884C;&#x548C;&#x8FB9;&#x670D;&#x52A1;&#x8FB9;&#x5907;&#x4EFD;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#x3002;</p>
+<p><img src="../../assets/aof-0.png" alt=""></p>
+<p>1&#xFF09;AOF &#x540E;&#x53F0;&#x6267;&#x884C;&#x7684;&#x65B9;&#x5F0F;&#x548C; RDB &#x6709;&#x7C7B;&#x4F3C;&#x7684;&#x5730;&#x65B9;&#xFF0C;fork &#x4E00;&#x4E2A;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x4E3B;&#x8FDB;&#x7A0B;&#x4ECD;&#x8FDB;&#x884C;&#x670D;&#x52A1;&#xFF0C;&#x5B50;&#x8FDB;&#x7A0B;&#x6267;&#x884C; AOF &#x6301;&#x4E45;&#x5316;&#xFF0C;&#x6570;&#x636E;&#x88AB; dump &#x5230;&#x78C1;&#x76D8;&#x4E0A;&#x3002;&#x4E0E; RDB &#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;&#x540E;&#x53F0;&#x5B50;&#x8FDB;&#x7A0B;&#x6301;&#x4E45;&#x5316;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x4E3B;&#x8FDB;&#x7A0B;&#x4F1A;&#x8BB0;&#x5F55;&#x671F;&#x95F4;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#x53D8;&#x66F4;&#xFF08;&#x4E3B;&#x8FDB;&#x7A0B;&#x8FD8;&#x5728;&#x670D;&#x52A1;&#xFF09;&#xFF0C;&#x5E76;&#x5B58;&#x50A8;&#x5728; server.aof_rewrite_buf_blocks &#x4E2D;&#xFF1B;&#x540E;&#x53F0;&#x5B50;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&#x540E;&#xFF0C;redis &#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x662F; RDB &#x6301;&#x4E45;&#x5316;&#x6240;&#x4E0D;&#x5177;&#x5907;&#x7684;&#x3002;</p>
+<p>&#x6765;&#x8BF4;&#x8BF4;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x8FD9;&#x4E2A;&#x4E1C;&#x897F;&#x3002;redis &#x670D;&#x52A1;&#x5668;&#x4EA7;&#x751F;&#x6570;&#x636E;&#x53D8;&#x66F4;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8B6C;&#x5982; set name Jhon&#xFF0C;&#x4E0D;&#x4EC5;&#x4EC5;&#x4F1A;&#x4FEE;&#x6539;&#x5185;&#x5B58;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x4E5F;&#x4F1A;&#x8BB0;&#x5F55;&#x6B64;&#x66F4;&#x65B0;&#xFF08;&#x4FEE;&#x6539;&#xFF09;&#x64CD;&#x4F5C;&#xFF0C;&#x8BB0;&#x5F55;&#x7684;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x4E0A;&#x9762;&#x6240;&#x8BF4;&#x7684;&#x6570;&#x636E;&#x7EC4;&#x7EC7;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x5728; server.aof_buf &#x4E2D;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x5B83;&#x7406;&#x89E3;&#x4E3A;&#x4E00;&#x4E2A;&#x5C0F;&#x578B;&#x4E34;&#x65F6;&#x4E2D;&#x8F6C;&#x7AD9;&#xFF0C;&#x6240;&#x6709;&#x7D2F;&#x79EF;&#x7684;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x90FD;&#x4F1A;&#x5148;&#x653E;&#x5165;&#x8FD9;&#x91CC;&#xFF0C;&#x5B83;&#x4F1A;&#x5728;&#x7279;&#x5B9A;&#x65F6;&#x673A;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x63D2;&#x5165;&#x5230; server.aof_rewrite_buf_blocks &#x4E0B;&#x94FE;&#x8868;&#xFF08;&#x4E0B;&#x9762;&#x4F1A;&#x8BE6;&#x8FF0;&#xFF09;&#xFF1B;server.aof_buf &#x4E2D;&#x7684;&#x6570;&#x636E;&#x5728; propagrate() &#x6DFB;&#x52A0;&#xFF0C;&#x5728;&#x6D89;&#x53CA;&#x6570;&#x636E;&#x66F4;&#x65B0;&#x7684;&#x5730;&#x65B9;&#x90FD;&#x4F1A;&#x8C03;&#x7528; propagrate() &#x4EE5;&#x7D2F;&#x79EF;&#x53D8;&#x66F4;&#x3002;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x4E5F;&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x5728; server.aof_rewrite_buf_blocks&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x7C7B;&#x578B;&#x4E3A; struct aofrwblock &#x7684;&#x94FE;&#x8868;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x5B83;&#x7406;&#x89E3;&#x4E3A;&#x4E00;&#x4E2A;&#x4ED3;&#x5E93;&#xFF0C;&#x5F53;&#x540E;&#x53F0;&#x6709; AOF &#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x5C06;&#x7D2F;&#x79EF;&#x7684;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#xFF08;&#x5728; server.aof_buf &#x4E2D;&#xFF09;&#x63D2;&#x5165;&#x5230;&#x94FE;&#x8868;&#x4E2D;&#xFF0C;&#x800C;&#x5F53; AOF &#x5B50;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&#xFF0C;&#x5B83;&#x4F1A;&#x88AB;&#x6574;&#x4E2A;&#x5199;&#x5165;&#x5230;&#x6587;&#x4EF6;&#x3002;&#x4E24;&#x8005;&#x662F;&#x6709;&#x5173;&#x8054;&#x7684;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x7684;&#x610F;&#x56FE;&#x5373;&#x662F;&#x4E0D;&#x7528;&#x6BCF;&#x6B21;&#x51FA;&#x73B0;&#x6570;&#x636E;&#x53D8;&#x66F4;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x89E6;&#x53D1;&#x4E00;&#x4E2A;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x5199;&#x64CD;&#x4F5C;&#x5148;&#x7F13;&#x5B58;&#x5230;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x5F85;&#x5230;&#x5408;&#x9002;&#x7684;&#x65F6;&#x673A;&#x5199;&#x5165;&#x5230;&#x78C1;&#x76D8;&#xFF0C;&#x5982;&#x6B64;&#x907F;&#x514D;&#x9891;&#x7E41;&#x7684;&#x5199;&#x64CD;&#x4F5C;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x8BA9;&#x6570;&#x636E;&#x53D8;&#x66F4;&#x53CA;&#x65F6;&#x66F4;&#x65B0;&#x5230;&#x78C1;&#x76D8;&#x4E2D;&#x3002;&#x4E24;&#x79CD;&#x505A;&#x6CD5;&#x7684;&#x597D;&#x574F;&#x5C31;&#x662F;&#x4E00;&#x79CD;&#x535A;&#x5F08;&#x4E86;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x540E;&#x53F0;&#x6267;&#x884C;&#x7684;&#x4E3B;&#x8981;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x542F;&#x52A8;&#x540E;&#x53F0;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x6267;&#x884C; AOF &#x6301;&#x4E45;&#x5316;&#x64CD;&#x4F5C;&#x3002;bgrewriteaofCommand()&#xFF0C;startAppendOnly()&#xFF0C;</span>
+<span class="hljs-comment">// serverCron() &#x4E2D;&#x4F1A;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;</span>
+<span class="hljs-comment">/* This is how rewriting of the append only file in background works:
+*
+* 1) The user calls BGREWRITEAOF
+* 2) Redis calls this function, that forks():
+*    2a) the child rewrite the append only file in a temp file.
+*    2b) the parent accumulates differences in server.aof_rewrite_buf.
+* 3) When the child finished &apos;2a&apos; exists.
+* 4) The parent will trap the exit code, if it&apos;s OK, will append the
+*    data accumulated into server.aof_rewrite_buf into the temp file, and
+*    finally will rename(2) the temp file in the actual file name.
+*    The the new file is reopened as the new append only file. Profit!
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">rewriteAppendOnlyFileBackground</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">pid_t</span> childpid;
+    <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> start;
+
+    <span class="hljs-comment">// &#x5DF2;&#x7ECF;&#x6709;&#x6B63;&#x5728;&#x6267;&#x884C;&#x5907;&#x4EFD;&#x7684;&#x5B50;&#x8FDB;&#x7A0B;</span>
+    <span class="hljs-keyword">if</span> (server.aof_child_pid != <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> REDIS_ERR;
+
+    start = ustime();
+    <span class="hljs-keyword">if</span> ((childpid = fork()) == <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">char</span> tmpfile[<span class="hljs-number">256</span>];
+
+        <span class="hljs-comment">// &#x5B50;&#x8FDB;&#x7A0B;</span>
+        <span class="hljs-comment">/* Child */</span>
+
+        <span class="hljs-comment">// &#x5173;&#x95ED;&#x76D1;&#x542C;</span>
+        closeListeningSockets(<span class="hljs-number">0</span>);
+
+        <span class="hljs-comment">// &#x8BBE;&#x7F6E;&#x8FDB;&#x7A0B; title</span>
+        redisSetProcTitle(<span class="hljs-string">&quot;redis-aof-rewrite&quot;</span>);
+
+        <span class="hljs-comment">// &#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x540D;</span>
+        <span class="hljs-built_in">snprintf</span>(tmpfile,<span class="hljs-number">256</span>,<span class="hljs-string">&quot;temp-rewriteaof-bg-%d.aof&quot;</span>, (<span class="hljs-keyword">int</span>) getpid());
+
+        <span class="hljs-comment">// &#x5F00;&#x59CB;&#x6267;&#x884C; AOF &#x6301;&#x4E45;&#x5316;</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-function">rewriteAppendO    <span class="hljs-title">nlyFile</span><span class="hljs-params">(tmpfile)</span> </span>== REDIS_OK) {
+            <span class="hljs-comment">// &#x810F;&#x6570;&#x636E;&#xFF0C;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5B50;&#x8FDB;&#x7A0B;&#x6240;&#x6D88;&#x8017;&#x7684;&#x5185;&#x5B58;&#x5927;&#x5C0F;</span>
+            <span class="hljs-comment">// &#x83B7;&#x53D6;&#x810F;&#x6570;&#x636E;&#x5927;&#x5C0F;</span>
+            <span class="hljs-keyword">size_t</span> private_dirty = zmalloc_get_private_dirty();
+
+            <span class="hljs-comment">// &#x8BB0;&#x5F55;&#x810F;&#x6570;&#x636E;</span>
+            <span class="hljs-keyword">if</span> (private_dirty) {
+                redisLog(REDIS_NOTICE,
+                    <span class="hljs-string">&quot;AOF rewrite: %zu MB of memory used by copy-on-write&quot;</span>,
+                    private_dirty/(<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>));
+            }
+            exitFromChild(<span class="hljs-number">0</span>);
+        } <span class="hljs-keyword">else</span> {
+            exitFromChild(<span class="hljs-number">1</span>);
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">/* Parent */</span>
+        server.stat_fork_time = ustime()-start;
+        <span class="hljs-keyword">if</span> (childpid == <span class="hljs-number">-1</span>) {
+            redisLog(REDIS_WARNING,
+                <span class="hljs-string">&quot;Can&apos;t rewrite append only file in background: fork: %s&quot;</span>,
+                strerror(errno));
+            <span class="hljs-keyword">return</span> REDIS_ERR;
+        }
+        redisLog(REDIS_NOTICE,
+            <span class="hljs-string">&quot;Background append only file rewriting started by pid %d&quot;</span>,childpid);
+        <span class="hljs-comment">// AOF &#x5DF2;&#x7ECF;&#x5F00;&#x59CB;&#x6267;&#x884C;&#xFF0C;&#x53D6;&#x6D88; AOF &#x8BA1;&#x5212;</span>
+        server.aof_rewrite_scheduled = <span class="hljs-number">0</span>;
+
+        <span class="hljs-comment">// AOF &#x6700;&#x8FD1;&#x4E00;&#x6B21;&#x6267;&#x884C;&#x7684;&#x8D77;&#x59CB;&#x65F6;&#x95F4;</span>
+        server.aof_rewrite_time_start = time(<span class="hljs-literal">NULL</span>);
+
+        <span class="hljs-comment">// &#x5B50;&#x8FDB;&#x7A0B; ID</span>
+        server.aof_child_pid = childpid;
+        updateDictResizePolicy();
+
+        <span class="hljs-comment">// &#x56E0;&#x4E3A;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x90FD;&#x5C06;&#x5199;&#x5165;&#x6587;&#x4EF6;&#xFF0C;&#x8981;&#x5F3A;&#x5236;&#x4EA7;&#x751F;&#x9009;&#x62E9;&#x6570;&#x636E;&#x96C6;&#x7684;&#x6307;&#x4EE4; SELECT &#xFF0C;&#x4EE5;&#x9632;&#x51FA;&#x73B0;&#x6570;&#x636E;</span>
+        <span class="hljs-comment">// &#x5408;&#x5E76;&#x9519;&#x8BEF;&#x3002;</span>
+        <span class="hljs-comment">/* We set appendseldb to -1 in order to force the next call to the
+         * feedAppendOnlyFile() to issue a SELECT command, so the differences
+         * accumulated by the parent into server.aof_rewrite_buf will start
+         * with a SELECT statement and it will be safe to merge. */</span>
+        server.aof_selected_db = <span class="hljs-number">-1</span>;
+
+        replicationScriptCacheFlush();
+        <span class="hljs-keyword">return</span> REDIS_OK;
+    }
+    <span class="hljs-keyword">return</span> REDIS_OK; <span class="hljs-comment">/* unreached */</span>
+}
+</code></pre>
+<p>&#x5982;&#x4E0A;&#xFF0C;&#x5B50;&#x8FDB;&#x7A0B;&#x6267;&#x884C; AOF &#x6301;&#x4E45;&#x5316;&#xFF0C;&#x7236;&#x8FDB;&#x7A0B;&#x5219;&#x4F1A;&#x8BB0;&#x5F55;&#x4E00;&#x4E9B; AOF &#x7684;&#x6267;&#x884C;&#x4FE1;&#x606F;&#x3002;&#x4E0B;&#x9762;&#x6765;&#x770B;&#x770B; AOF &#x6301;&#x4E45;&#x5316;&#x5177;&#x4F53;&#x662F;&#x600E;&#x4E48;&#x505A;&#x7684;&#xFF1F;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// AOF &#x6301;&#x4E45;&#x5316;&#x4E3B;&#x51FD;&#x6570;&#x3002;&#x53EA;&#x5728; rewriteAppendOnlyFileBackground() &#x4E2D;&#x4F1A;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;</span>
+<span class="hljs-comment">/* Write a sequence of commands able to fully rebuild the dataset into
+* &quot;filename&quot;. Used both by REWRITEAOF and BGREWRITEAOF.
+*
+* In order to minimize the number of commands needed in the rewritten
+* log Redis uses variadic commands when possible, such as RPUSH, SADD
+* and ZADD. However at max REDIS_AOF_REWRITE_ITEMS_PER_CMD items per time
+* are inserted using a single command. */</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">rewriteAppendOnlyFile</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *filename)</span> </span>{
+    dictIterator *di = <span class="hljs-literal">NULL</span>;
+    dictEntry *de;
+    rio aof;
+    FILE *fp;
+    <span class="hljs-keyword">char</span> tmpfile[<span class="hljs-number">256</span>];
+    <span class="hljs-keyword">int</span> j;
+    <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> now = mstime();
+
+    <span class="hljs-comment">/* Note that we have to use a different temp name here compared to the
+     * one used by rewriteAppendOnlyFileBackground() function. */</span>
+    <span class="hljs-built_in">snprintf</span>(tmpfile,<span class="hljs-number">256</span>,<span class="hljs-string">&quot;temp-rewriteaof-%d.aof&quot;</span>, (<span class="hljs-keyword">int</span>) getpid());
+
+    <span class="hljs-comment">// &#x6253;&#x5F00;&#x6587;&#x4EF6;</span>
+    fp = fopen(tmpfile,<span class="hljs-string">&quot;w&quot;</span>);
+    <span class="hljs-keyword">if</span> (!fp) {
+        redisLog(REDIS_WARNING, <span class="hljs-string">&quot;Opening the temp file for AOF rewrite in&quot;</span> 
+            <span class="hljs-string">&quot;rewriteAppendOnlyFile(): %s&quot;</span>, strerror(errno));
+        <span class="hljs-keyword">return</span> REDIS_ERR;
+    }
+
+    <span class="hljs-comment">// &#x521D;&#x59CB;&#x5316; rio &#x7ED3;&#x6784;&#x4F53;</span>
+    rioInitWithFile(&amp;aof,fp);
+
+    <span class="hljs-comment">// &#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E86;&#x81EA;&#x52A8;&#x5907;&#x4EFD;&#x53C2;&#x6570;&#xFF0C;&#x5C06;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;</span>
+    <span class="hljs-keyword">if</span> (server.aof_rewrite_incremental_fsync)
+        rioSetAutoSync(&amp;aof,REDIS_AOF_AUTOSYNC_BYTES);
+
+    <span class="hljs-comment">// &#x5907;&#x4EFD;&#x6BCF;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x96C6;</span>
+    <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; server.dbnum; j++) {
+        <span class="hljs-keyword">char</span> selectcmd[] = <span class="hljs-string">&quot;*2\r\n$6\r\nSELECT\r\n&quot;</span>;
+        redisDb *db = server.db+j;
+        dict *d = db-&gt;dict;
+        <span class="hljs-keyword">if</span> (dictSize(d) == <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;
+
+        <span class="hljs-comment">// &#x83B7;&#x53D6;&#x6570;&#x636E;&#x96C6;&#x7684;&#x8FED;&#x4EE3;&#x5668;</span>
+        di = dictGetSafeIterator(d);
+        <span class="hljs-keyword">if</span> (!di) {
+            fclose(fp);
+            <span class="hljs-keyword">return</span> REDIS_ERR;
+        }
+
+        <span class="hljs-comment">// &#x5199;&#x5165; AOF &#x64CD;&#x4F5C;&#x7801;</span>
+        <span class="hljs-comment">/* SELECT the new DB */</span>
+        <span class="hljs-keyword">if</span> (rioWrite(&amp;aof,selectcmd,<span class="hljs-keyword">sizeof</span>(selectcmd)<span class="hljs-number">-1</span>) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+
+        <span class="hljs-comment">// &#x5199;&#x5165;&#x6570;&#x636E;&#x96C6;&#x5E8F;&#x53F7;</span>
+        <span class="hljs-keyword">if</span> (rioWriteBulkLongLong(&amp;aof,j) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+
+        <span class="hljs-comment">// &#x5199;&#x5165;&#x6570;&#x636E;&#x96C6;&#x4E2D;&#x6BCF;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x9879;</span>
+        <span class="hljs-comment">/* Iterate this DB writing every entry */</span>
+        <span class="hljs-keyword">while</span>((de = dictNext(di)) != <span class="hljs-literal">NULL</span>) {
+            sds keystr;
+            robj key, *o;
+            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> expiretime;
+
+            keystr = dictGetKey(de);
+            o = dictGetVal(de);
+
+            <span class="hljs-comment">// &#x5C06; keystr &#x5C01;&#x88C5;&#x5728; robj &#x91CC;</span>
+            initStaticStringObject(key,keystr);
+
+            <span class="hljs-comment">// &#x83B7;&#x53D6;&#x8FC7;&#x671F;&#x65F6;&#x95F4;</span>
+            expiretime = getExpire(db,&amp;key);
+
+            <span class="hljs-comment">// &#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x8FC7;&#x671F;&#xFF0C;&#x653E;&#x5F03;&#x5B58;&#x50A8;</span>
+            <span class="hljs-comment">/* If this key is already expired skip it */</span>
+            <span class="hljs-keyword">if</span> (expiretime != <span class="hljs-number">-1</span> &amp;&amp; expiretime &lt; now) <span class="hljs-keyword">continue</span>;
+
+            <span class="hljs-comment">// &#x5199;&#x5165;&#x952E;&#x503C;&#x5BF9;&#x5E94;&#x7684;&#x5199;&#x64CD;&#x4F5C;</span>
+            <span class="hljs-comment">/* Save the key and associated value */</span>
+            <span class="hljs-keyword">if</span> (o-&gt;type == REDIS_STRING) {
+                <span class="hljs-comment">/* Emit a SET command */</span>
+                <span class="hljs-keyword">char</span> cmd[]=<span class="hljs-string">&quot;*3\r\n$3\r\nSET\r\n&quot;</span>;
+                <span class="hljs-keyword">if</span> (rioWrite(&amp;aof,cmd,<span class="hljs-keyword">sizeof</span>(cmd)<span class="hljs-number">-1</span>) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+                <span class="hljs-comment">/* Key and value */</span>
+                <span class="hljs-keyword">if</span> (rioWriteBulkObject(&amp;aof,&amp;key) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+                <span class="hljs-keyword">if</span> (rioWriteBulkObject(&amp;aof,o) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (o-&gt;type == REDIS_LIST) {
+                <span class="hljs-keyword">if</span> (rewriteListObject(&amp;aof,&amp;key,o) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (o-&gt;type == REDIS_SET) {
+                <span class="hljs-keyword">if</span> (rewriteSetObject(&amp;aof,&amp;key,o) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (o-&gt;type == REDIS_ZSET) {
+                <span class="hljs-keyword">if</span> (rewriteSortedSetObject(&amp;aof,&amp;key,o) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (o-&gt;type == REDIS_HASH) {
+                <span class="hljs-keyword">if</span> (rewriteHashObject(&amp;aof,&amp;key,o) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+            } <span class="hljs-keyword">else</span> {
+                redisPanic(<span class="hljs-string">&quot;Unknown object type&quot;</span>);
+            }
+
+            <span class="hljs-comment">// &#x5199;&#x5165;&#x8FC7;&#x671F;&#x65F6;&#x95F4;</span>
+            <span class="hljs-comment">/* Save the expire time */</span>
+            <span class="hljs-keyword">if</span> (expiretime != <span class="hljs-number">-1</span>) {
+                <span class="hljs-keyword">char</span> cmd[]=<span class="hljs-string">&quot;*3\r\n$9\r\nPEXPIREAT\r\n&quot;</span>;
+                <span class="hljs-keyword">if</span> (rioWrite(&amp;aof,cmd,<span class="hljs-keyword">sizeof</span>(cmd)<span class="hljs-number">-1</span>) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+                <span class="hljs-keyword">if</span> (rioWriteBulkObject(&amp;aof,&amp;key) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+                <span class="hljs-keyword">if</span> (rioWriteBulkLongLong(&amp;aof,expiretime) == <span class="hljs-number">0</span>) <span class="hljs-keyword">goto</span> werr;
+            }
+        }
+
+        <span class="hljs-comment">// &#x91CA;&#x653E;&#x8FED;&#x4EE3;&#x5668;</span>
+        dictReleaseIterator(di);
+    }
+
+    <span class="hljs-comment">// &#x5199;&#x5165;&#x78C1;&#x76D8;</span>
+    <span class="hljs-comment">/* Make sure data will not remain on the OS&apos;s output buffers */</span>
+    fflush(fp);
+    aof_fsync(fileno(fp));
+    fclose(fp);
+
+    <span class="hljs-comment">// &#x91CD;&#x5199;&#x6587;&#x4EF6;&#x540D;</span>
+    <span class="hljs-comment">/* Use RENAME to make sure the DB file is changed atomically only
+     * if the generate DB file is ok. */</span>
+    <span class="hljs-keyword">if</span> (rename(tmpfile,filename) == <span class="hljs-number">-1</span>) {
+        redisLog(REDIS_WARNING,<span class="hljs-string">&quot;Error moving temp append only file on the &quot;</span>
+            <span class="hljs-string">&quot;final destination: %s&quot;</span>, strerror(errno));
+        unlink(tmpfile);
+        <span class="hljs-keyword">return</span> REDIS_ERR;
+    }
+    redisLog(REDIS_NOTICE,<span class="hljs-string">&quot;SYNC append only file rewrite performed&quot;</span>);
+    <span class="hljs-keyword">return</span> REDIS_OK;
+
+werr:
+    <span class="hljs-comment">// &#x6E05;&#x7406;&#x5DE5;&#x4F5C;</span>
+    fclose(fp);
+    unlink(tmpfile);
+    redisLog(REDIS_WARNING,<span class="hljs-string">&quot;Write error writing append only file on disk: &quot;</span>
+        <span class="hljs-string">&quot;%s&quot;</span>, strerror(errno));
+    <span class="hljs-keyword">if</span> (di) dictReleaseIterator(di);
+    <span class="hljs-keyword">return</span> REDIS_ERR;
+}
+</code></pre>
+<p>&#x521A;&#x624D;&#x6240;&#x8BF4;&#xFF0C;AOF &#x5728;&#x6301;&#x4E45;&#x5316;&#x7ED3;&#x675F;&#x540E;&#xFF0C;&#x6301;&#x4E45;&#x5316;&#x8FC7;&#x7A0B;&#x4EA7;&#x751F;&#x7684;&#x6570;&#x636E;&#x53D8;&#x66F4;&#x4E5F;&#x4F1A;&#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x5982;&#x679C;&#x6709;&#x7559;&#x610F;&#x5B9A;&#x65F6;&#x5904;&#x7406;&#x51FD;&#x6570; serverCorn()&#xFF1A;&#x7236;&#x8FDB;&#x7A0B;&#x4F1A;&#x5728;&#x5B50;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&#x540E;&#xFF0C;&#x5C06; AOF &#x6301;&#x4E45;&#x5316;&#x8FC7;&#x7A0B;&#x4E2D;&#x4EA7;&#x751F;&#x7684;&#x6570;&#x636E;&#x53D8;&#x66F4;&#xFF0C;&#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x3002;&#x8FD9;&#x5C31;&#x662F; backgroundRewriteDoneHandler() &#x8981;&#x505A;&#x7684;&#xFF1A;&#x5C06; server.aof_rewrite_buf_blocks &#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x540E;&#x53F0;&#x5B50;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&#x540E;&#xFF0C;redis &#x66F4;&#x65B0;&#x7F13;&#x5B58; server.aof_rewrite_buf_blocks &#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x4E2D;</span>
+<span class="hljs-comment">// &#x5728; AOF &#x6301;&#x4E45;&#x5316;&#x7ED3;&#x675F;&#x540E;&#x4F1A;&#x6267;&#x884C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#xFF0C; backgroundRewriteDoneHandler() &#x4E3B;&#x8981;&#x5DE5;&#x4F5C;&#x662F;</span>
+<span class="hljs-comment">// &#x5C06; server.aof_rewrite_buf_blocks&#xFF0C;&#x5373; AOF &#x7F13;&#x5B58;&#x5199;&#x5165;&#x6587;&#x4EF6;</span>
+<span class="hljs-comment">/* A background append only file rewriting (BGREWRITEAOF) terminated its work.
+ * Handle this. */</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">backgroundRewriteDoneHandler</span><span class="hljs-params">(<span class="hljs-keyword">int</span> exitcode, <span class="hljs-keyword">int</span> bysignal)</span> </span>{
+        ......
+        <span class="hljs-comment">// &#x5C06; AOF &#x7F13;&#x5B58; server.aof_rewrite_buf_blocks &#x7684; AOF &#x5199;&#x5165;&#x78C1;&#x76D8;</span>
+        <span class="hljs-keyword">if</span> (aofRewriteBufferWrite(newfd) == <span class="hljs-number">-1</span>) {
+            redisLog(REDIS_WARNING,
+                <span class="hljs-string">&quot;Error trying to flush the parent diff to the rewritten AOF: %s&quot;</span>, 
+                strerror(errno));
+            close(newfd);
+            <span class="hljs-keyword">goto</span> cleanup;
+        }
+        ......
+}
+
+<span class="hljs-comment">// &#x5C06;&#x7D2F;&#x79EF;&#x7684;&#x66F4;&#x65B0;&#x7F13;&#x5B58; server.aof_rewrite_buf_blocks &#x540C;&#x6B65;&#x5230;&#x78C1;&#x76D8;</span>
+<span class="hljs-comment">/* Write the buffer (possibly composed of multiple blocks) into the specified
+* fd. If no short write or any other error happens -1 is returned,
+* otherwise the number of bytes written is returned. */</span>
+<span class="hljs-keyword">ssize_t</span> aofRewriteBufferWrite(<span class="hljs-keyword">int</span> fd) {
+    listNode *ln;
+    listIter li;
+    <span class="hljs-keyword">ssize_t</span> count = <span class="hljs-number">0</span>;
+
+    listRewind(server.aof_rewrite_buf_blocks,&amp;li);
+    <span class="hljs-keyword">while</span>((ln = listNext(&amp;li))) {
+        aofrwblock *block = listNodeValue(ln);
+        <span class="hljs-keyword">ssize_t</span> nwritten;
+
+        <span class="hljs-keyword">if</span> (block-&gt;used) {
+            nwritten = write(fd,block-&gt;buf,block-&gt;used);
+            <span class="hljs-keyword">if</span> (nwritten != block-&gt;used) {
+                <span class="hljs-keyword">if</span> (nwritten == <span class="hljs-number">0</span>) errno = EIO;
+                <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+            }
+            count += nwritten;
+        }
+    }
+    <span class="hljs-keyword">return</span> count;
+}
+</code></pre>
+<p>2&#xFF09;&#x8FB9;&#x670D;&#x52A1;&#x8FB9;&#x5907;&#x4EFD;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5373; redis &#x670D;&#x52A1;&#x5668;&#x4F1A;&#x628A;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x53D8;&#x66F4;&#x5B58;&#x50A8;&#x5728; server.aof_buf &#x4E2D;&#xFF0C;&#x5E76;&#x5728;&#x7279;&#x5B9A;&#x65F6;&#x673A;&#x5C06;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x5199;&#x5165;&#x9884;&#x8BBE;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#xFF08;server.aof_filename&#xFF09;&#x3002;&#x7279;&#x5B9A;&#x65F6;&#x673A;&#x6709;&#x4E09;&#x79CD;&#xFF1A;</p>
+<ul>
+<li>&#x8FDB;&#x5165;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x4E4B;&#x524D;</li>
+<li>redis &#x670D;&#x52A1;&#x5668;&#x5B9A;&#x65F6;&#x7A0B;&#x5E8F; serverCron() &#x4E2D;</li>
+<li>&#x505C;&#x6B62; AOF &#x7B56;&#x7565;&#x7684; stopAppendOnly() &#x4E2D;</li>
+</ul>
+<p>redis &#x65E0;&#x975E;&#x662F;&#x4E0D;&#x60F3;&#x670D;&#x52A1;&#x5668;&#x7A81;&#x7136;&#x5D29;&#x6E83;&#x7EC8;&#x6B62;&#xFF0C;&#x5BFC;&#x81F4;&#x8FC7;&#x591A;&#x7684;&#x6570;&#x636E;&#x4E22;&#x5931;&#x3002;redis &#x9ED8;&#x8BA4;&#x662F;&#x6BCF;&#x9694;&#x56FA;&#x5B9A;&#x65F6;&#x95F4;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x8FB9;&#x670D;&#x52A1;&#x8FB9;&#x5907;&#x4EFD;&#xFF0C;&#x5373;&#x9694;&#x56FA;&#x5B9A;&#x65F6;&#x95F4;&#x5C06;&#x7D2F;&#x79EF;&#x7684;&#x53D8;&#x66F4;&#x7684;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x8FB9;&#x670D;&#x52A1;&#x8FB9;&#x6267;&#x884C; AOF &#x6301;&#x4E45;&#x5316;&#x7684;&#x4E3B;&#x8981;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x540C;&#x6B65;&#x78C1;&#x76D8;&#xFF1B;&#x5C06;&#x6240;&#x6709;&#x7D2F;&#x79EF;&#x7684;&#x66F4;&#x65B0; server.aof_buf &#x5199;&#x5165;&#x78C1;&#x76D8;</span>
+<span class="hljs-comment">/* Write the append only file buffer on disk.
+*
+* Since we are required to write the AOF before replying to the client,
+* and the only way the client socket can get a write is entering when the
+* the event loop, we accumulate all the AOF writes in a memory
+* buffer and write it on disk using this function just before entering
+* the event loop again.
+*
+* About the &apos;force&apos; argument:
+*
+* When the fsync policy is set to &apos;everysec&apos; we may delay the flush if there
+* is still an fsync() going on in the background thread, since for instance
+* on Linux write(2) will be blocked by the background fsync anyway.
+* When this happens we remember that there is some aof buffer to be
+* flushed ASAP, and will try to do that in the serverCron() function.
+*
+* However if force is set to 1 we&apos;ll write regardless of the background
+* fsync. */</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">flushAppendOnlyFile</span><span class="hljs-params">(<span class="hljs-keyword">int</span> force)</span> </span>{
+    <span class="hljs-keyword">ssize_t</span> nwritten;
+    <span class="hljs-keyword">int</span> sync_in_progress = <span class="hljs-number">0</span>;
+
+    <span class="hljs-comment">// &#x65E0;&#x6570;&#x636E;&#xFF0C;&#x65E0;&#x9700;&#x540C;&#x6B65;&#x5230;&#x78C1;&#x76D8;</span>
+    <span class="hljs-keyword">if</span> (sdslen(server.aof_buf) == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>;
+
+    <span class="hljs-comment">// &#x521B;&#x5EFA;&#x7EBF;&#x7A0B;&#x4EFB;&#x52A1;&#xFF0C;&#x4E3B;&#x8981;&#x8C03;&#x7528; fsync()</span>
+    <span class="hljs-keyword">if</span> (server.aof_fsync == AOF_FSYNC_EVERYSEC)
+        sync_in_progress = bioPendingJobsOfType(REDIS_BIO_AOF_FSYNC) != <span class="hljs-number">0</span>;
+
+    <span class="hljs-comment">// &#x5982;&#x679C;&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;&#x5F3A;&#x5236;&#x540C;&#x6B65;&#x7684;&#x9009;&#x9879;&#xFF0C;&#x53EF;&#x80FD;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x8FDB;&#x884C;&#x540C;&#x6B65;</span>
+    <span class="hljs-keyword">if</span> (server.aof_fsync == AOF_FSYNC_EVERYSEC &amp;&amp; !force) {
+        <span class="hljs-comment">// &#x63A8;&#x8FDF;&#x6267;&#x884C; AOF</span>
+        <span class="hljs-comment">/* With this append fsync policy we do background fsyncing.
+         * If the fsync is still in progress we can try to delay
+         * the write for a couple of seconds. */</span>
+        <span class="hljs-keyword">if</span> (sync_in_progress) {
+            <span class="hljs-keyword">if</span> (server.aof_flush_postponed_start == <span class="hljs-number">0</span>) {
+                <span class="hljs-comment">// &#x8BBE;&#x7F6E;&#x5EF6;&#x8FDF;&#x51B2;&#x6D17;&#x65F6;&#x95F4;&#x9009;&#x9879;</span>
+                <span class="hljs-comment">/* No previous write postponinig, remember that we are
+                 * postponing the flush and return. */</span>
+                <span class="hljs-comment">// /* Unix time sampled every cron cycle. */</span>
+                server.aof_flush_postponed_start = server.unixtime; 
+                <span class="hljs-keyword">return</span>;
+
+            <span class="hljs-comment">// &#x6CA1;&#x6709;&#x8D85;&#x8FC7; 2s&#xFF0C;&#x76F4;&#x63A5;&#x7ED3;&#x675F;</span>
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (server.unixtime - server.aof_flush_postponed_start &lt; <span class="hljs-number">2</span>) {
+                <span class="hljs-comment">/* We were already waiting for fsync to finish, but for less
+                 * than two seconds this is still ok. Postpone again. */</span>
+                <span class="hljs-keyword">return</span>;
+            }
+
+            <span class="hljs-comment">// &#x5426;&#x5219;&#xFF0C;&#x8981;&#x5F3A;&#x5236;&#x5199;&#x5165;&#x78C1;&#x76D8;</span>
+            <span class="hljs-comment">/* Otherwise fall trough, and go write since we can&apos;t wait
+             * over two seconds. */</span>
+            server.aof_delayed_fsync++;
+            redisLog(REDIS_NOTICE,<span class="hljs-string">&quot;Asynchronous AOF fsync is taking too long (disk&quot;</span>
+                <span class="hljs-string">&quot; is busy?). Writing the AOF buffer without waiting for fsync to &quot;</span>
+                <span class="hljs-string">&quot;complete, this may slow down Redis.&quot;</span>);
+        }
+    }
+
+    <span class="hljs-comment">// &#x53D6;&#x6D88;&#x5EF6;&#x8FDF;&#x51B2;&#x6D17;&#x65F6;&#x95F4;&#x8BBE;&#x7F6E;</span>
+    <span class="hljs-comment">/* If you are following this code path, then we are going to write so
+     * set reset the postponed flush sentinel to zero. */</span>
+    server.aof_flush_postponed_start = <span class="hljs-number">0</span>;
+
+    <span class="hljs-comment">/* We want to perform a single write. This should be guaranteed atomic
+     * at least if the filesystem we are writing is a real physical one.
+     * While this will save us against the server being killed I don&apos;t think
+     * there is much to do about the whole server stopping for power problems
+     * or alike */</span>
+    <span class="hljs-comment">// AOF &#x6587;&#x4EF6;&#x5DF2;&#x7ECF;&#x6253;&#x5F00;&#x4E86;&#x3002;&#x5C06; server.aof_buf &#x4E2D;&#x7684;&#x6240;&#x6709;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x5199;&#x5165;&#x6587;&#x4EF6;</span>
+    nwritten = write(server.aof_fd,server.aof_buf,sdslen(server.aof_buf));
+
+    <span class="hljs-keyword">if</span> (nwritten != (<span class="hljs-keyword">signed</span>)sdslen(server.aof_buf)) {
+        <span class="hljs-comment">/* Ooops, we are in troubles. The best thing to do for now is
+         * aborting instead of giving the illusion that everything is
+         * working as expected. */</span>
+        <span class="hljs-keyword">if</span> (nwritten == <span class="hljs-number">-1</span>) {
+            redisLog(REDIS_WARNING,<span class="hljs-string">&quot;Exiting on error writing to the append-only&quot;</span>
+                <span class="hljs-string">&quot; file: %s&quot;</span>,strerror(errno));
+        } <span class="hljs-keyword">else</span> {
+            redisLog(REDIS_WARNING,<span class="hljs-string">&quot;Exiting on short write while writing to &quot;</span>
+                                   <span class="hljs-string">&quot;the append-only file: %s (nwritten=%ld, &quot;</span>
+                                   <span class="hljs-string">&quot;expected=%ld)&quot;</span>,
+                                   strerror(errno),
+                                   (<span class="hljs-keyword">long</span>)nwritten,
+                                   (<span class="hljs-keyword">long</span>)sdslen(server.aof_buf));
+
+            <span class="hljs-keyword">if</span> (ftruncate(server.aof_fd, server.aof_current_size) == <span class="hljs-number">-1</span>) {
+                redisLog(REDIS_WARNING, <span class="hljs-string">&quot;Could not remove short write &quot;</span>
+                         <span class="hljs-string">&quot;from the append-only file.  Redis may refuse &quot;</span>
+                         <span class="hljs-string">&quot;to load the AOF the next time it starts.  &quot;</span>
+                         <span class="hljs-string">&quot;ftruncate: %s&quot;</span>, strerror(errno));
+            }
+        }
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-comment">// &#x66F4;&#x65B0; AOF &#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;</span>
+    server.aof_current_size += nwritten;
+
+    <span class="hljs-comment">// &#x5F53; server.aof_buf &#x8DB3;&#x591F;&#x5C0F;,&#x91CD;&#x65B0;&#x5229;&#x7528;&#x7A7A;&#x95F4;&#xFF0C;&#x9632;&#x6B62;&#x9891;&#x7E41;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#x3002;</span>
+    <span class="hljs-comment">// &#x76F8;&#x53CD;&#xFF0C;&#x5F53; server.aof_buf &#x5360;&#x636E;&#x5927;&#x91CF;&#x7684;&#x7A7A;&#x95F4;&#xFF0C;&#x91C7;&#x53D6;&#x7684;&#x7B56;&#x7565;&#x662F;&#x91CA;&#x653E;&#x7A7A;&#x95F4;&#xFF0C;&#x53EF;&#x89C1; redis </span>
+    <span class="hljs-comment">// &#x5BF9;&#x5185;&#x5B58;&#x5F88;&#x654F;&#x611F;&#x3002;</span>
+    <span class="hljs-comment">/* Re-use AOF buffer when it is small enough. The maximum comes from the
+     * arena size of 4k minus some overhead (but is otherwise arbitrary). */</span>
+    <span class="hljs-keyword">if</span> ((sdslen(server.aof_buf)+sdsavail(server.aof_buf)) &lt; <span class="hljs-number">4000</span>) {
+        sdsclear(server.aof_buf);
+    } <span class="hljs-keyword">else</span> {
+        sdsfree(server.aof_buf);
+        server.aof_buf = sdsempty();
+    }
+
+    <span class="hljs-comment">/* Don&apos;t fsync if no-appendfsync-on-rewrite is set to yes and there are
+     * children doing I/O in the background. */</span>
+    <span class="hljs-keyword">if</span> (server.aof_no_fsync_on_rewrite &amp;&amp;
+        (server.aof_child_pid != <span class="hljs-number">-1</span> || server.rdb_child_pid != <span class="hljs-number">-1</span>))
+            <span class="hljs-keyword">return</span>;
+
+    <span class="hljs-comment">// sync,&#x5199;&#x5165;&#x78C1;&#x76D8;</span>
+    <span class="hljs-comment">/* Perform the fsync if needed. */</span>
+    <span class="hljs-keyword">if</span> (server.aof_fsync == AOF_FSYNC_ALWAYS) {
+        <span class="hljs-comment">/* aof_fsync is defined as fdatasync() for Linux in order to avoid
+         * flushing metadata. */</span>
+        aof_fsync(server.aof_fd); <span class="hljs-comment">/* Let&apos;s try to get this data on the disk */</span>
+        server.aof_last_fsync = server.unixtime;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((server.aof_fsync == AOF_FSYNC_EVERYSEC &amp;&amp;
+                server.unixtime &gt; server.aof_last_fsync)) {
+        <span class="hljs-keyword">if</span> (!sync_in_progress) aof_background_fsync(server.aof_fd);
+        server.aof_last_fsync = server.unixtime;
+    }
+}
+</code></pre>
+<script src="../../gitbook_plugin_analytics.js"></script>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="aof-shu-ju-zu-zhi-fang-shi.html" class="navigation navigation-prev " aria-label="Previous page: AOF 数据组织方式">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="xi-shuo-geng-xin-huan-cun.html" class="navigation navigation-next " aria-label="Next page: 细说更新缓存">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"AOF 持久化运作机制","level":"4.3.2","depth":2,"next":{"title":"细说更新缓存","level":"4.3.3","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/xi-shuo-geng-xin-huan-cun.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/xi-shuo-geng-xin-huan-cun.md","articles":[]},"previous":{"title":"AOF 数据组织方式","level":"4.3.1","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-shu-ju-zu-zhi-fang-shi.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-shu-ju-zu-zhi-fang-shi.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["adsense","analytics"],"pluginsConfig":{"adsense":{"client":"ca-pub-1222642516532018","slot":"3520154175","format":"auto","element":".page-inner section","position":"top"},"analytics":{"google":"UA-45497945-1"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-chi-jiu-hua-yun-zuo-ji-zhi.md","mtime":"2018-09-02T11:05:29.411Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-02T11:05:36.251Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-adsense/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

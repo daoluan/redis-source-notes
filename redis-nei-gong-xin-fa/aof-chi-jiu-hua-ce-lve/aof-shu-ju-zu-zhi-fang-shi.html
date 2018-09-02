@@ -1,0 +1,1081 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>AOF 数据组织方式 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="aof-chi-jiu-hua-yun-zuo-ji-zhi.html" />
+    
+    
+    <link rel="prev" href="../aof-chi-jiu-hua-ce-lve.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">关于</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    关于
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../yuan-ma-ri-zhi.html">
+            
+                <a href="../../yuan-ma-ri-zhi.html">
+            
+                    
+                    源码日志
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../yuan-ma-ri-zhi/yuan-ma-ri-zhi.html">
+            
+                <a href="../../yuan-ma-ri-zhi/yuan-ma-ri-zhi.html">
+            
+                    
+                    源码日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../../yuan-ma-ri-zhi/cong-na-li-kai-shi-du-qi-ff0c-zen-yao-du.html">
+            
+                <a href="../../yuan-ma-ri-zhi/cong-na-li-kai-shi-du-qi-ff0c-zen-yao-du.html">
+            
+                    
+                    从哪里开始读起，怎么读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../../yuan-ma-ri-zhi/bu-zai-fu-sha-zhu-gao-tai.html">
+            
+                <a href="../../yuan-ma-ri-zhi/bu-zai-fu-sha-zhu-gao-tai.html">
+            
+                    
+                    不在浮沙筑高台
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../../yuan-ma-ri-zhi/shi-yao-yang-de-yuan-dai-ma-shi-he-yue-du.html">
+            
+                <a href="../../yuan-ma-ri-zhi/shi-yao-yang-de-yuan-dai-ma-shi-he-yue-du.html">
+            
+                    
+                    什么样的源代码适合阅读
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 服务框架</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../chu-tan-redis.html">
+            
+                <a href="../../chu-tan-redis.html">
+            
+                    
+                    初探 Redis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../../chu-tan-redis/redis-zai-huan-cun-xi-tong-suo-chu-de-wei-zhi.html">
+            
+                <a href="../../chu-tan-redis/redis-zai-huan-cun-xi-tong-suo-chu-de-wei-zhi.html">
+            
+                    
+                    redis 在缓存系统所处的位置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie.html">
+            
+                    
+                    Redis 事件驱动详解
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../../redis-shi-jian-qu-dong-xiang-jie/gai-shu.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/gai-shu.html">
+            
+                    
+                    概述
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1.1" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-qu-dong-shu-ju-jie-gou.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-qu-dong-shu-ju-jie-gou.html">
+            
+                    
+                    事件驱动数据结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.1.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan-zhong-xin.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan-zhong-xin.html">
+            
+                    
+                    事件循环中心
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie/zong-jie.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/zong-jie.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../../redis-shi-jian-qu-dong-xiang-jie/redis-shi-jian-qu-dong-yuan-li.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/redis-shi-jian-qu-dong-yuan-li.html">
+            
+                    
+                    Redis 事件驱动原理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.3.1" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-zhu-ce-xiang-jie.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-zhu-ce-xiang-jie.html">
+            
+                    
+                    事件注册详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.2" data-path="../../redis-shi-jian-qu-dong-xiang-jie/zhun-bei-jian-ting-gong-zuo.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/zhun-bei-jian-ting-gong-zuo.html">
+            
+                    
+                    准备监听工作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.3" data-path="../../redis-shi-jian-qu-dong-xiang-jie/wei-jian-ting-tao-jie-zi-zhu-ce-shi-jian.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/wei-jian-ting-tao-jie-zi-zhu-ce-shi-jian.html">
+            
+                    
+                    为监听套接字注册事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.4" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-xun-huan.html">
+            
+                    
+                    事件循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.5" data-path="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-hong-fa.html">
+            
+                <a href="../../redis-shi-jian-qu-dong-xiang-jie/shi-jian-hong-fa.html">
+            
+                    
+                    事件触发
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../../redis-shi-ru-he-ti-gong-fu-wu-de.html">
+            
+                <a href="../../redis-shi-ru-he-ti-gong-fu-wu-de.html">
+            
+                    
+                    Redis 是如何提供服务的
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../../redis-shi-ru-he-ti-gong-fu-wu-de/xiang-xi-de-guo-cheng.html">
+            
+                <a href="../../redis-shi-ru-he-ti-gong-fu-wu-de/xiang-xi-de-guo-cheng.html">
+            
+                    
+                    详细的过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../../redis-shi-ru-he-ti-gong-fu-wu-de/xin-lian-jie-de-chu-li-liu-cheng.html">
+            
+                <a href="../../redis-shi-ru-he-ti-gong-fu-wu-de/xin-lian-jie-de-chu-li-liu-cheng.html">
+            
+                    
+                    新连接的处理流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 基础数据结构</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-zong-shu.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-zong-shu.html">
+            
+                    
+                    Redis 数据结构综述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-redisobject.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-redisobject.html">
+            
+                    
+                    Redis 数据结构 redisObject
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../../redis-ji-chu-shu-ju-jie-gou/redisshu-ju-jie-gou-adlist.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redisshu-ju-jie-gou-adlist.html">
+            
+                    
+                    Redis数据结构 adlist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-sds.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-sds.html">
+            
+                    
+                    Redis 数据结构 sds
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-dict.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-dict.html">
+            
+                    
+                    Redis 数据结构 dict
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-ziplist.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-ziplist.html">
+            
+                    
+                    Redis 数据结构 ziplist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-skiplist.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jie-gou-skiplist.html">
+            
+                    
+                    Redis 数据结构 skiplist
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jiegou-intset.html">
+            
+                <a href="../../redis-ji-chu-shu-ju-jie-gou/redis-shu-ju-jiegou-intset.html">
+            
+                    
+                    Redis 数据结构 intset
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 内功心法</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../redis-shu-ju-tao-tai-ji-zhi.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi.html">
+            
+                    
+                    Redis 数据淘汰机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../redis-shu-ju-tao-tai-ji-zhi/lru-shu-ju-tao-tai-ji-zhi.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi/lru-shu-ju-tao-tai-ji-zhi.html">
+            
+                    
+                    LRU 数据淘汰机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../redis-shu-ju-tao-tai-ji-zhi/ttl-shu-ju-tao-tai-ji-zhi.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi/ttl-shu-ju-tao-tai-ji-zhi.html">
+            
+                    
+                    TTL 数据淘汰机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../redis-shu-ju-tao-tai-ji-zhi/zai-na-li-kai-shi-tao-tai-shu-ju.html">
+            
+                <a href="../redis-shu-ju-tao-tai-ji-zhi/zai-na-li-kai-shi-tao-tai-shu-ju.html">
+            
+                    
+                    在哪里开始淘汰数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../rdb-chi-jiu-hua-ce-lve.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve.html">
+            
+                    
+                    RDB 持久化策略
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../rdb-chi-jiu-hua-ce-lve/shu-ju-jie-gou-rio.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve/shu-ju-jie-gou-rio.html">
+            
+                    
+                    数据结构 rio
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="../rdb-chi-jiu-hua-ce-lve/rdb-chi-jiu-hua-de-yun-zuo-ji-zhi.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve/rdb-chi-jiu-hua-de-yun-zuo-ji-zhi.html">
+            
+                    
+                    RDB 持久化的运作机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.3" data-path="../rdb-chi-jiu-hua-ce-lve/rdb-shu-ju-de-zu-zhi-fang-shi.html">
+            
+                <a href="../rdb-chi-jiu-hua-ce-lve/rdb-shu-ju-de-zu-zhi-fang-shi.html">
+            
+                    
+                    RDB 数据的组织方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../aof-chi-jiu-hua-ce-lve.html">
+            
+                <a href="../aof-chi-jiu-hua-ce-lve.html">
+            
+                    
+                    AOF 持久化策略
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="4.3.1" data-path="aof-shu-ju-zu-zhi-fang-shi.html">
+            
+                <a href="aof-shu-ju-zu-zhi-fang-shi.html">
+            
+                    
+                    AOF 数据组织方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.2" data-path="aof-chi-jiu-hua-yun-zuo-ji-zhi.html">
+            
+                <a href="aof-chi-jiu-hua-yun-zuo-ji-zhi.html">
+            
+                    
+                    AOF 持久化运作机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.3" data-path="xi-shuo-geng-xin-huan-cun.html">
+            
+                <a href="xi-shuo-geng-xin-huan-cun.html">
+            
+                    
+                    细说更新缓存
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.4" data-path="aof-hui-fu-guo-cheng.html">
+            
+                <a href="aof-hui-fu-guo-cheng.html">
+            
+                    
+                    AOF 恢复过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.5" data-path="aof-de-shi-yong-chang-jing.html">
+            
+                <a href="aof-de-shi-yong-chang-jing.html">
+            
+                    
+                    AOF 的适用场景
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../zhu-cong-fu-zhi.html">
+            
+                <a href="../zhu-cong-fu-zhi.html">
+            
+                    
+                    主从复制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.4.1" data-path="../zhu-cong-fu-zhi/ji-ya-kong-jian.html">
+            
+                <a href="../zhu-cong-fu-zhi/ji-ya-kong-jian.html">
+            
+                    
+                    积压空间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.2" data-path="../zhu-cong-fu-zhi/zhu-cong-shu-ju-tong-bu-ji-zhi-gai-shu.html">
+            
+                <a href="../zhu-cong-fu-zhi/zhu-cong-shu-ju-tong-bu-ji-zhi-gai-shu.html">
+            
+                    
+                    主从数据同步机制概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.3" data-path="../zhu-cong-fu-zhi/quan-tong-bu.html">
+            
+                <a href="../zhu-cong-fu-zhi/quan-tong-bu.html">
+            
+                    
+                    全同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.4" data-path="../zhu-cong-fu-zhi/bu-fen-tong-bu.html">
+            
+                <a href="../zhu-cong-fu-zhi/bu-fen-tong-bu.html">
+            
+                    
+                    部分同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.5" data-path="../zhu-cong-fu-zhi/huan-cun-zhu-ji.html">
+            
+                <a href="../zhu-cong-fu-zhi/huan-cun-zhu-ji.html">
+            
+                    
+                    缓存主机
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.6" data-path="../zhu-cong-fu-zhi/zong-jie.html">
+            
+                <a href="../zhu-cong-fu-zhi/zong-jie.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.7" >
+            
+                <span>
+            
+                    
+                    Redis 命令队列
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../redis-shi-wu-ji-zhi.html">
+            
+                <a href="../redis-shi-wu-ji-zhi.html">
+            
+                    
+                    Redis 事务机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.5.1" data-path="../redis-shi-wu-ji-zhi/redis-ming-ling-dui-lie.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/redis-ming-ling-dui-lie.html">
+            
+                    
+                    Redis 命令队列
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.2" data-path="../redis-shi-wu-ji-zhi/jian-zhi-de-jian-shi.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/jian-zhi-de-jian-shi.html">
+            
+                    
+                    键值的监视
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.3" data-path="../redis-shi-wu-ji-zhi/redis-shi-wu-de-zhi-xing-yu-qu-xiao.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/redis-shi-wu-de-zhi-xing-yu-qu-xiao.html">
+            
+                    
+                    Redis 事务的执行与取消
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.4" data-path="../redis-shi-wu-ji-zhi/redis-shi-wu-fan-wai-pian.html">
+            
+                <a href="../redis-shi-wu-ji-zhi/redis-shi-wu-fan-wai-pian.html">
+            
+                    
+                    Redis 事务番外篇
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Redis 操练</li>
+        
+        
+    
+
+    
+        
+        <li class="header">其他</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >AOF 数据组织方式</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="aof-&#x6570;&#x636E;&#x7EC4;&#x7EC7;&#x65B9;&#x5F0F;">AOF &#x6570;&#x636E;&#x7EC4;&#x7EC7;&#x65B9;&#x5F0F;</h2>
+<p>&#x5047;&#x8BBE; redis &#x5185;&#x5B58;&#x6709;&#x300C;name:Jhon&#x300D;&#x7684;&#x952E;&#x503C;&#x5BF9;&#xFF0C;&#x90A3;&#x4E48;&#x8FDB;&#x884C; AOF &#x6301;&#x4E45;&#x5316;&#x540E;&#xFF0C;AOF &#x6587;&#x4EF6;&#x6709;&#x5982;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-c">*<span class="hljs-number">2</span>      <span class="hljs-meta"># 2&#x4E2A;&#x53C2;&#x6570;</span>
+$<span class="hljs-number">6</span>      <span class="hljs-meta"># &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x957F;&#x5EA6;&#x4E3A; 6</span>
+SELECT  <span class="hljs-meta"># &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;</span>
+$<span class="hljs-number">1</span>      <span class="hljs-meta"># &#x7B2C;&#x4E8C;&#x53C2;&#x6570;&#x957F;&#x5EA6;&#x4E3A; 1</span>
+<span class="hljs-number">8</span>       <span class="hljs-meta"># &#x7B2C;&#x4E8C;&#x53C2;&#x6570;</span>
+*<span class="hljs-number">3</span>      <span class="hljs-meta"># 3&#x4E2A;&#x53C2;&#x6570;</span>
+$<span class="hljs-number">3</span>      <span class="hljs-meta"># &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x957F;&#x5EA6;&#x4E3A; 4</span>
+SET     <span class="hljs-meta"># &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;</span>
+$<span class="hljs-number">4</span>      <span class="hljs-meta"># &#x7B2C;&#x4E8C;&#x53C2;&#x6570;&#x957F;&#x5EA6;&#x4E3A; 4</span>
+name    <span class="hljs-meta"># &#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;</span>
+$<span class="hljs-number">4</span>      <span class="hljs-meta"># &#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x957F;&#x5EA6;&#x4E3A; 4</span>
+Jhon    <span class="hljs-meta"># &#x7B2C;&#x4E8C;&#x53C2;&#x6570;&#x957F;&#x5EA6;&#x4E3A; 4</span>
+</code></pre>
+<p>&#x6240;&#x4EE5;&#x5BF9;&#x4E0A;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x6062;&#x590D;&#xFF0C;&#x80FD;&#x5F97;&#x5230;&#x719F;&#x6089;&#x7684;&#x4E00;&#x6761; redis &#x547D;&#x4EE4;&#xFF1A;SELECT 8;SET name Jhon.</p>
+<p>&#x53EF;&#x4EE5;&#x60F3;&#x8C61;&#x7684;&#x662F;&#xFF0C;redis &#x904D;&#x5386;&#x5185;&#x5B58;&#x6570;&#x636E;&#x96C6;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A; key-value &#x5BF9;&#xFF0C;&#x4F9D;&#x6B21;&#x5199;&#x5165;&#x78C1;&#x76D8;&#x4E2D;&#xFF1B;redis &#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4ECE; AOF &#x6587;&#x4EF6;&#x4E2D;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#xFF0C;&#x6062;&#x590D;&#x6570;&#x636E;&#x3002;</p>
+<script src="../../gitbook_plugin_analytics.js"></script>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../aof-chi-jiu-hua-ce-lve.html" class="navigation navigation-prev " aria-label="Previous page: AOF 持久化策略">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="aof-chi-jiu-hua-yun-zuo-ji-zhi.html" class="navigation navigation-next " aria-label="Next page: AOF 持久化运作机制">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"AOF 数据组织方式","level":"4.3.1","depth":2,"next":{"title":"AOF 持久化运作机制","level":"4.3.2","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-chi-jiu-hua-yun-zuo-ji-zhi.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-chi-jiu-hua-yun-zuo-ji-zhi.md","articles":[]},"previous":{"title":"AOF 持久化策略","level":"4.3","depth":1,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve.md","articles":[{"title":"AOF 数据组织方式","level":"4.3.1","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-shu-ju-zu-zhi-fang-shi.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-shu-ju-zu-zhi-fang-shi.md","articles":[]},{"title":"AOF 持久化运作机制","level":"4.3.2","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-chi-jiu-hua-yun-zuo-ji-zhi.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-chi-jiu-hua-yun-zuo-ji-zhi.md","articles":[]},{"title":"细说更新缓存","level":"4.3.3","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/xi-shuo-geng-xin-huan-cun.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/xi-shuo-geng-xin-huan-cun.md","articles":[]},{"title":"AOF 恢复过程","level":"4.3.4","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-hui-fu-guo-cheng.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-hui-fu-guo-cheng.md","articles":[]},{"title":"AOF 的适用场景","level":"4.3.5","depth":2,"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-de-shi-yong-chang-jing.md","ref":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-de-shi-yong-chang-jing.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["adsense","analytics"],"pluginsConfig":{"adsense":{"client":"ca-pub-1222642516532018","slot":"3520154175","format":"auto","element":".page-inner section","position":"top"},"analytics":{"google":"UA-45497945-1"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"redis-nei-gong-xin-fa/aof-chi-jiu-hua-ce-lve/aof-shu-ju-zu-zhi-fang-shi.md","mtime":"2018-09-02T11:05:29.412Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-02T11:05:36.251Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-adsense/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
